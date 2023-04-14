@@ -151,7 +151,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: ./queen-v2
           push: true
-          tags: inseefr/queen-v2:${{ needs.check_if_version_upgraded.outputs.queen_v2_version }}
+          tags: inseefr/queen:${{ needs.check_if_version_upgraded.outputs.queen_v2_version }}
 
   release:
     runs-on: ubuntu-latest
