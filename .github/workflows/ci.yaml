@@ -103,7 +103,7 @@ jobs:
           plateforms: linux/amd64,linux/arm64
           context: drama-queen
           push: true
-          tags: ddecrulle/drama-queen:${{ needs.check_if_version_upgraded.outputs.drama_version }}
+          tags: inseefr/drama-queen:${{ needs.check_if_version_upgraded.outputs.drama_version }}
 
   docker_queen:
     needs: check_if_version_upgraded
@@ -127,7 +127,7 @@ jobs:
           plateforms: linux/amd64,linux/arm64
           context: ./queen
           push: true
-          tags: ddecrulle/queen:${{ needs.check_if_version_upgraded.outputs.queen_version }}
+          tags: inseefr/queen:${{ needs.check_if_version_upgraded.outputs.queen_version }}
 
   docker_queen_v2:
     needs: check_if_version_upgraded
@@ -151,7 +151,7 @@ jobs:
           plateforms: linux/amd64,linux/arm64
           context: ./queen-v2
           push: true
-          tags: ddecrulle/queen-v2:${{ needs.check_if_version_upgraded.outputs.queen_v2_version }}
+          tags: inseefr/queen-v2:${{ needs.check_if_version_upgraded.outputs.queen_v2_version }}
 
   release:
     runs-on: ubuntu-latest
