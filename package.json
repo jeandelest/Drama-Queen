@@ -1,0 +1,26 @@
+{
+  "name": "drama-queen-container",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "drama-queen",
+    "queen-v2",
+    "queen"
+  ],
+  "scripts": {
+    "build": "yarn workspaces run build",
+    "build:drama-queen": "yarn workspace drama-queen build",
+    "build:queen": "yarn workspace queen build",
+    "build:queen-v2": "yarn workspace queen-v2 build",
+    "serve:drama-queen": "yarn workspace drama-queen preview",
+    "dev:drama-queen": "yarn workspace drama-queen dev",
+    "dev:queen": "yarn workspace queen start",
+    "dev:queen-v2": "yarn workspace queen-v2 start",
+    "stop": "kill-port --port 5000,5001,5002"
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-federation": "^1.2.1",
+    "kill-port": "^2.0.1",
+    "vite-tsconfig-paths": "^4.0.5"
+  }
+}

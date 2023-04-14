@@ -1,0 +1,10 @@
+{
+  "queenUrl": "https://questionnaire-enqueteurs.enquetes.developpement.insee.fr/queen",
+  "_queenUrl_comment_": "Final URL of the Queen application",
+
+  "apiUrl": "https://api.questionnaire-enqueteurs.enquetes.developpement.insee.fr",
+  "_apiUrl_comment_": "URL of the back-office of Queen application",
+
+  "authenticationType": "OIDC",
+  "_authenticationType_comment_": "The mode of authentication: 'NONE' or 'OIDC'"
+}
