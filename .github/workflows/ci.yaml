@@ -100,7 +100,7 @@ jobs:
           path: drama-queen/dist
       - uses: docker/build-push-action@v4
         with:
-          plateforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           context: drama-queen
           push: true
           tags: inseefr/drama-queen:${{ needs.check_if_version_upgraded.outputs.drama_version }}
@@ -124,7 +124,7 @@ jobs:
           path: queen/build
       - uses: docker/build-push-action@v4
         with:
-          plateforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           context: ./queen
           push: true
           tags: inseefr/queen:${{ needs.check_if_version_upgraded.outputs.queen_version }}
@@ -148,7 +148,7 @@ jobs:
           path: queen-v2/build
       - uses: docker/build-push-action@v4
         with:
-          plateforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           context: ./queen-v2
           push: true
           tags: inseefr/queen-v2:${{ needs.check_if_version_upgraded.outputs.queen_v2_version }}
