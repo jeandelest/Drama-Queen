@@ -9,6 +9,10 @@ import VisualisationMapping from "pages/QueenMapping/VisualisationMapping";
 
 export const routes = [
   {
+    path: "/env",
+    element: <Env />
+  },
+  {
     path: "/queen/synchronize",
     element: <queen-app />
   },
@@ -20,9 +24,4 @@ export const routes = [
     path: "/queen/*",
     element: <VisualisationMapping />
   },
-  {
-    path: "/queen/env",
-    element: <Env />
-  },
-
 ]
