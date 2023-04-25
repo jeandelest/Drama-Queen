@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-      - run: npx lerna bootstrap --hoist
+      - run: npx lerna bootstrap
       - name: Copy .env file for drama queen
         env:
           VITE_QUEEN_URL: ${{ vars.VITE_QUEEN_URL }}
