@@ -38,8 +38,8 @@
     "workbox-strategies": "^6.1.1"
   },
   "scripts": {
-    "start": "set PORT=5002 && react-scripts start",
-    "start-dev": "set PORT=5002 && craco start",
+    "start": "cross-env PORT=5002 react-scripts start",
+    "start-dev": "cross-env PORT=5002 craco start",
     "build": "react-scripts build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
@@ -109,6 +109,7 @@
     "@types/react": "^16.9.23",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "copy-and-watch": "^0.1.4",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",

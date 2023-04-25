@@ -2,11 +2,6 @@ import Env from "pages/Env";
 import IntegratedMapping from "pages/QueenMapping/IntegratedMapping";
 import VisualisationMapping from "pages/QueenMapping/VisualisationMapping";
 
-// Dynamic import
-//const App = React.lazy(() => import('queen_v2/App'))
-// Static import 
-//import App from 'queen_v2/App';
-
 export const routes = [
   {
     path: "/env",
