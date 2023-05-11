@@ -1,10 +1,13 @@
 import Env from "pages/Env";
-import IntegratedMapping from "pages/QueenMapping/IntegratedMapping";
+import SurveyMapping from "pages/QueenMapping/SurveyMapping";
+import SurveyUnitMapping from "pages/QueenMapping/SurveyUnitMapping";
 import VisualisationMapping from "pages/QueenMapping/VisualisationMapping";
+import { READ_ONLY } from "utils/constants";
 
+//ReadOnly path is a bad pattern must be change (affects pearl,moog,queen)
 export const routes = [
   {
-    path: "/env",
+    path: "queen/env",
     element: <Env />
   },
   {
@@ -12,11 +15,15 @@ export const routes = [
     element: <queen-app />
   },
   {
-    path: "/queen/questionnaire/:campaignId/survey-unit/:surveyUnitId",
-    element: <IntegratedMapping />
+    path: `/queen/:${READ_ONLY}?/survey-unit/:id`,
+    element: <SurveyUnitMapping />
   },
   {
-    path: "/queen/*",
+    path: `/queen/:${READ_ONLY}?/questionnaire/:campaignId/survey-unit/:surveyUnitId`,
+    element: <SurveyMapping />
+  },
+  {
+    path: "/queen/visualize/*",
     element: <VisualisationMapping />
   },
 ]
