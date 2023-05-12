@@ -6,7 +6,7 @@ export const AUTHENTICATION_TYPE_ENUM = [NONE, OIDC];
 export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';
-export const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
+export const QUEEN_URL = window.localStorage.getItem('QUEEN_V2_URL') || '';
 export const QUEEN_USER_KEY = 'QUEEN_USER';
 export const SYNCHRONIZE_KEY = 'SYNCHRONIZE';
 
