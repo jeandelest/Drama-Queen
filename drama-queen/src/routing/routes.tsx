@@ -11,10 +11,6 @@ export const routes = [
     element: <Env />
   },
   {
-    path: "/queen/synchronize",
-    element: <queen-app />
-  },
-  {
     path: `/queen/:${READ_ONLY}?/survey-unit/:id`,
     element: <SurveyUnitMapping />
   },
@@ -25,5 +21,13 @@ export const routes = [
   {
     path: "/queen/visualize/*",
     element: <VisualisationMapping />
+  },
+  {
+    path: "/queen/synchronize",
+    element: <queen-app />
+  },
+  {
+    path: "/queen/authentication/*",
+    element: <queen-app />
   },
 ]
