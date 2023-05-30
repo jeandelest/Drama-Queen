@@ -16,9 +16,9 @@ const Rooter = () => {
     <Switch>
       <Route
         path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
-        component={secure(OrchestratorManager)}
+        component={OrchestratorManager}
       />
-      <Route path={`/queen/:${READ_ONLY}?/survey-unit/:idSU`} component={secure(QueenRedirect)} />
+      <Route path={`/queen/:${READ_ONLY}?/survey-unit/:idSU`} component={QueenRedirect} />
       {!standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
       <Route path="/queen/visualize" component={Visualizer} />
       {!standalone &&
