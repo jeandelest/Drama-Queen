@@ -2,14 +2,14 @@ import * as lunatic from '@inseefr/lunatic';
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import D from 'i18n';
+import { componentHasResponse } from 'utils/components/deduceState';
+import { LoopPanel } from './LoopPanel';
 import ButtonContinue from './buttons/continue/index';
 import { ComponentDisplayer } from './componentDisplayer';
-import D from 'i18n';
 import Header from './header';
-import { LoopPanel } from './LoopPanel';
-import NavBar from './navBar';
-import { componentHasResponse } from 'utils/components/deduceState';
 import { useStyles } from './lightOrchestrator.style';
+import NavBar from './navBar';
 
 function onLogChange(response, value, args) {
   console.log('onChange', { response, value, args });
@@ -75,8 +75,8 @@ function LightOrchestrator({
   // TODO restore when lunatic handle object in missingButtons properties
   // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
   // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
-  const dontKnowButton = `F2 ${D.doesntKnowButton}`;
-  const refusedButton = `F4 ${D.refusalButton}`;
+  const dontKnowButton = D.doesntKnowButton;
+  const refusedButton = D.refusalButton;
 
   lunaticStateRef.current = lunatic.useLunatic(source, data, {
     features,

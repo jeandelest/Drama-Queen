@@ -432,91 +432,98 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         height: '100%',
       },
 
-      // generic button
-      '& .missing-button, .button-lunatic': {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        color: 'white',
-        backgroundColor: '#666666',
-        border: 'none',
-        borderRadius: '4px',
-        lineHeight: 1.75,
-        fontSize: '0.875rem',
-
-        '&::before': {
-          content: "'Fx'",
-          padding: '0.3em 0.5em 0.3em 0.5em',
-          margin: '0.5em',
-          color: '#666666',
-          fontWeight: 'bold',
-          backgroundColor: 'white',
+      // Commons css for buttons
+      '& .missing-button-rf, .missing-button-rf-active, .missing-button-dk, .missing-button-dk-active, .button-lunatic':
+        {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          color: 'white',
+          backgroundColor: '#666666',
+          border: 'none',
           borderRadius: '4px',
+          lineHeight: 1.75,
+          fontSize: '0.875rem',
 
-          '&:hover,&:focus': {
-            color: 'white',
-            backgroundColor: '#b45f06',
+          '&::before': {
+            padding: '0.3em 0.5em 0.3em 0.5em',
+            margin: '0.5em',
+            color: '#666666',
+            fontWeight: 'bold',
+            backgroundColor: 'white',
+            borderRadius: '4px',
+          },
+          '&::after': {
+            content: 'none',
+            width: '1em',
+            fontSize: '125%',
+            fontWeight: 'bold',
           },
         },
-        '&::after': {
-          content: 'none',
-          width: '1em',
-          fontSize: '85%',
-          fontWeight: 'bold',
+
+      // nonactive DK button
+      '& .missing-button.missing-button-dk, .missing-button.missing-button-dk .button-lunatic, .missing-button-active.missing-button-dk-active, .missing-button-active.missing-button-dk-active .button-lunatic':
+        {
+          '&:hover,&:focus': {
+            backgroundColor: '#f9cb9c',
+            color: '#b45f06',
+            '& *': { backgroundColor: '#f9cb9c', color: '#b45f06' },
+            '&::before': {
+              color: 'white',
+              backgroundColor: '#b45f06',
+            },
+          },
+          '&::before': {
+            content: "'F2'",
+          },
         },
-      },
 
-      // '& .missing-button-dk, .missing-button-dk-active'
-
-      '& .missing-button, .missing-button-dk .button-lunatic': {
-        '&:hover,&:focus': {
-          backgroundColor: '#f9cb9c', //jaune sable
-          color: '#b45f06', //doré
+      // active DK button
+      '& .missing-button-active.missing-button-dk-active, .missing-button-active.missing-button-dk-active .button-lunatic':
+        {
+          backgroundColor: '#f9cb9c',
+          color: '#b45f06',
+          '& *': { backgroundColor: '#f9cb9c', color: '#b45f06' },
           '&::before': {
             color: 'white',
             backgroundColor: '#b45f06',
           },
-        },
-      },
-
-      '& .missing-button-rf .button-lunatic': {
-        '& ::after': {
-          color: 'white',
-          content: 'toto',
-          backgroundColor: '#990000',
-        },
-        '&:hover,&:focus': {
-          backgroundColor: '#ea9999',
-          color: '#990000',
-        },
-      },
-
-      //  dont know active
-      '& .missing-button-dk-active .button-lunatic': {
-        backgroundColor: '#f9cb9c',
-        color: '#b45f06',
-        '& .shortcut': {
-          color: 'white',
-          backgroundColor: '#b45f06',
-        },
-        '& .checked': {
-          color: '#b45f06',
           '&::after': {
             content: "'✓'",
           },
         },
-      },
-      // refused active
-      '& .missing-button-active.missing-button-rf-active .button-lunatic': {
-        backgroundColor: '#ea9999',
-        color: '#990000',
-        '&::after': {
-          content: "'✓'",
-          // width: '1em',
-          // fontSize: '85%',
-          // fontWeight: 'bold',
+
+      // nonactive RF button
+      '& .missing-button.missing-button-rf, .missing-button.missing-button-rf .button-lunatic, .missing-button-active.missing-button-rf-active, .missing-button-active.missing-button-rf-active .button-lunatic':
+        {
+          '&:hover,&:focus': {
+            backgroundColor: '#ea9999',
+            color: '#990000',
+            '& *': { backgroundColor: '#ea9999', color: '#990000' },
+            '&::before': {
+              color: 'white',
+              backgroundColor: '#990000',
+            },
+          },
+          '&::before': {
+            content: "'F4'",
+          },
         },
-      },
+
+      // active RF button
+      '& .missing-button-active.missing-button-rf-active, .missing-button-active.missing-button-rf-active .button-lunatic':
+        {
+          backgroundColor: '#ea9999',
+          color: '#990000',
+          '& *': { backgroundColor: '#ea9999', color: '#990000' },
+          '&::before': {
+            color: 'white',
+            backgroundColor: '#990000',
+          },
+          '&::after': {
+            content: "'✓'",
+          },
+        },
     },
     '& .lunatic-combo-box-container': {
       '& .lunatic-combo-box': {
