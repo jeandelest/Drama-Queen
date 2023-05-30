@@ -3,9 +3,10 @@ import SurveyMapping from "pages/QueenMapping/SurveyMapping";
 import SurveyUnitMapping from "pages/QueenMapping/SurveyUnitMapping";
 import VisualisationMapping from "pages/QueenMapping/VisualisationMapping";
 import { READ_ONLY } from "utils/constants";
+import type { RouteObject } from "react-router-dom";
 
 //ReadOnly path is a bad pattern must be change (affects pearl,moog,queen)
-export const routes = [
+export const routes: RouteObject[] = [
   {
     path: "queen/env",
     element: <Env />
@@ -29,5 +30,9 @@ export const routes = [
   {
     path: "/queen/authentication/*",
     element: <queen-app />
+  },
+  {
+    path: "/queen/authentication-v2/*",
+    element: <queen-v2-app />
   },
 ]

@@ -1,11 +1,11 @@
 {
   "name": "drama-queen",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5000 --strictPort",
-    "build": "tsc && ts-node-esm scripts/generate-entrypoint.ts && vite build",
+    "build": "tsc && node scripts/generate-entrypoint.js && vite build",
     "preview": "vite preview --port 5000 --strictPort",
     "serve": "vite preview --port 5000 --strictPort"
   },

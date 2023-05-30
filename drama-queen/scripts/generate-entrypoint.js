@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 
 fs.readFile(".env", "utf8", function (_, contents) {
   const content = contents
