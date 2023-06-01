@@ -103,7 +103,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: drama-queen
           push: true
-          tags: inseefr/drama-queen:${{ needs.check_if_version_upgraded.outputs.drama_version }}
+          tags: inseefr/drama-queen: latest,${{ needs.check_if_version_upgraded.outputs.drama_version }}
 
   docker_queen:
     needs: check_if_version_upgraded
