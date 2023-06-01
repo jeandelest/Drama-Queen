@@ -325,7 +325,7 @@ const Navigation = ({ className, title }) => {
   );
 };
 
-const comparison = (prevProps, nextProps) => {
+const comparison = (_, nextProps) => {
   return !nextProps.menuOpen;
 };
 
