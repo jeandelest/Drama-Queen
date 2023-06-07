@@ -2,9 +2,9 @@ import { ArrowRightAlt, SkipNext } from '@material-ui/icons';
 
 import { Button } from 'components/designSystem';
 import D from 'i18n';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import React from 'react';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import { SHORTCUT_FAST_FORWARD } from 'utils/constants';
 import { useStyles } from './continue.style';
 
@@ -19,12 +19,14 @@ const ButtonContinue = ({
   isLastReachedPage,
   componentHasResponse,
   isLastPage,
+  loopVariables = [],
   page,
 }) => {
   const classes = useStyles();
   const localPageFastForward = () => goToLastReachedPage();
 
-  const shouldFastForward = !readonly && rereading && !isLastReachedPage;
+  const shouldFastForward =
+    loopVariables.length === 0 && !readonly && rereading && !isLastReachedPage;
   const shouldQuit = isLastPage && readonly;
   const shouldSaveAndQuit = isLastPage && !readonly;
   const shouldContinue = !shouldFastForward && componentHasResponse && !rereading;
@@ -50,7 +52,7 @@ const ButtonContinue = ({
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === SHORTCUT_FAST_FORWARD) localPageFastForward();
+    if (key === SHORTCUT_FAST_FORWARD && shouldFastForward) localPageFastForward();
   };
 
   const geLabelToDisplay = () => {
@@ -71,6 +73,7 @@ const ButtonContinue = ({
   const onClickFunction = () => {
     if (shouldFastForward) return goToLastReachedPage;
     if (shouldContinue) return pageNextFunction;
+    if (shouldSaveAndQuit) return localFinalQuit;
   };
 
   const helpLabel = shouldFastForward ? D.ctrlEnd : D.ctrlEnter;
