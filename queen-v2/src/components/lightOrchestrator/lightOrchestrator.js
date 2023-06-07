@@ -122,6 +122,7 @@ function LightOrchestrator({
     overview = [],
     // waiting,
     pager,
+
     // getErrors,
     // getModalErrors,
     getCurrentErrors,
@@ -276,6 +277,7 @@ function LightOrchestrator({
             isLastReachedPage={isLastReachedPage}
             componentHasResponse={hasResponse}
             goToLastReachedPage={goToLastReachedPage}
+            loopVariables={loopVariables}
           ></ButtonContinue>
         </div>
         <NavBar
