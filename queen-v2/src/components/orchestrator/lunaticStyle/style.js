@@ -91,7 +91,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       marginTop: '1em',
       fontWeight: 'normal',
       fontSize: '92%',
-      '&.declaration-help': {
+      '&.declaration-help, &.HELP': {
         color: theme.palette.declarations.help,
       },
       display: 'table',
@@ -182,21 +182,29 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         '& .lunatic-icon': {
           display: 'none',
         },
-
         '& > .lunatic-input-checkbox': {
-          display: 'inline-flex',
+          display: 'block',
           alignItems: 'center',
           // padding: '0.5em 0.5em 0.5em 0.6em',
           position: 'relative',
           // right: '1.3em',
           // width: '92%',
-          [theme.breakpoints.down('md')]: {
-            width: '85%',
-          },
+        },
+
+        '& > .lunatic-input-radio': {
+          display: 'block',
+          alignItems: 'center',
+          // padding: '0.5em 0.5em 0.5em 0.6em',
+          position: 'relative',
+          // right: '1.3em',
+          // width: '92%',
         },
         '&:hover span': {
           color: `${modalityLabelColorChecked}`,
           fontWeight: 'bold',
+          '& *': {
+            fontWeight: 'bold',
+          },
           // TODO code-modality not provided (yet?) in lunatic-v2
           '& .code-modality': {
             color: `${modalityCodeBackgroundColor}`,
@@ -215,6 +223,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           '& span': {
             color: `${modalityLabelColorChecked}`,
             fontWeight: 'bold',
+            '& *': {
+              fontWeight: 'bold',
+            },
             // TODO code-modality not provided (yet?) in lunatic-v2
             '& .code-modality': {
               color: `${modalityCodeBackgroundColor}`,
