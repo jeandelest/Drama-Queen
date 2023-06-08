@@ -16,7 +16,7 @@ export const routes: RouteObject[] = [
     element: <SurveyUnitMapping />
   },
   {
-    path: `/queen/:${READ_ONLY}?/questionnaire/:campaignId/survey-unit/:surveyUnitId`,
+    path: `/queen/:${READ_ONLY}?/questionnaire/:questionnaireId/survey-unit/:surveyUnitId`,
     element: <SurveyMapping />
   },
   {

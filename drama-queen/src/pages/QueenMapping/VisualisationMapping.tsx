@@ -2,10 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { isQueenV2Survey } from "utils/checkLunaticVersion/isQueenV2Survey";
 
-
-
-
-
 function VisualisationMapping() {
   const [searchParams,] = useSearchParams();
   const questionnaireUrl = searchParams.get("questionnaire")
