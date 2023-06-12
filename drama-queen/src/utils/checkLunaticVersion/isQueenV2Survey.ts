@@ -1,7 +1,7 @@
 import { fetcher } from "utils/fetcher";
 import type { LunaticSource } from "./typeSurvey";
 
-const lunaticModelVersionBreaking = "2.2.9";
+const lunaticModelVersionBreaking = "2.2.10";
 
 const semverCompare = new Intl.Collator("en", { numeric: true }).compare;
 
