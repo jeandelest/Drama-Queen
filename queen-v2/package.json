@@ -1,6 +1,6 @@
 {
   "name": "queen-v2",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Web application for the management of questionnaires powered by Lunatic",
   "repository": {
     "type": "git",
