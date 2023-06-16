@@ -1,5 +1,5 @@
 const loadQueenV2 = async () => {
-  console.log('Loading queen');
+  console.log('Loading Queen v2');
   try {
     const entryUrl = new URL(document.currentScript.src);
     const queenUrl =
@@ -9,12 +9,17 @@ const loadQueenV2 = async () => {
     const manifest = await fetch(`${queenUrl}/asset-manifest.json`);
     const { entrypoints } = await manifest.json();
 
-    entrypoints.forEach(scriptUrl => {
-      if (scriptUrl.endsWith('.js')) {
+    entrypoints.forEach(fileUrl => {
+      if (fileUrl.endsWith('.js')) {
         const script = document.createElement('script');
-        script.src = `${queenUrl}/${scriptUrl}`;
+        script.src = `${queenUrl}/${fileUrl}`;
         script.async = true;
         document.body.appendChild(script);
+      } else if (fileUrl.endsWith('.css')) {
+        const styleSheet = document.createElement('link');
+        styleSheet.rel = 'stylesheet';
+        styleSheet.href = `${queenUrl}/${fileUrl}`;
+        document.head.appendChild(styleSheet);
       }
     });
     console.log('Queen V2 was successfully loaded');

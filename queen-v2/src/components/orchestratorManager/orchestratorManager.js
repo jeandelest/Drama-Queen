@@ -46,7 +46,6 @@ export const OrchestratorManager = () => {
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
   const { putUeData, postParadata } = useAPI();
-  console.log({ stateData });
   const [getState, changeState, onDataChange] = useQuestionnaireState(
     surveyUnit?.id,
     initialData,
