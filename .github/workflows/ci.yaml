@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.head_commit.author.name != 'github-actions[bot]'
-    environment: Main
+    environment: demo
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -83,7 +83,6 @@ jobs:
 
   docker_drama:
     needs: check_if_version_upgraded
-    environment: Main
     if: needs.check_if_version_upgraded.outputs.is_drama_upgraded_version == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +108,6 @@ jobs:
 
   docker_queen:
     needs: check_if_version_upgraded
-    environment: Main
     if: needs.check_if_version_upgraded.outputs.is_queen_upgraded_version == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -133,7 +131,6 @@ jobs:
 
   docker_queen_v2:
     needs: check_if_version_upgraded
-    environment: Main
     if: needs.check_if_version_upgraded.outputs.is_queen_v2_upgraded_version == 'true'
     runs-on: ubuntu-latest
     steps:
