@@ -34,7 +34,7 @@ export default defineConfig(({ command, mode }) => {
         // },
         manifest: false,
         srcDir: "src",
-        filename: "sw-pearl.js",
+        filename: "queen-service-worker.js",
       }),
       VitePWA({
         injectRegister: "auto",
