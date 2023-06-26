@@ -14,6 +14,7 @@ function VisualisationMapping() {
       setIsSurveyFetched(true);
     }).catch((e) => {
       console.error("An error occured when fetching survey, by default we redirect to queen v1", e)
+      setIsSurveyFetched(true)
       setIsQueenV2(false)
     })
 
