@@ -1416,10 +1416,10 @@
     remove-accents "^0.4.2"
     sass "^1.32.2"
 
-"@inseefr/lunatic@^2.4.5-beta":
-  version "2.4.5-beta"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.4.5-beta.tgz#4623573357d9c06dd0934c421504070bc1586b97"
-  integrity sha512-oj9xHdD7BSnArgoXCAgwZ6dzrAAdsm8MVlvRrlpYiQXuvU2CvWBRCxLIDRtzwiQFwMT6bVltLwS0MKkSz7SFaw==
+"@inseefr/lunatic@^2.4.7":
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.4.7.tgz#bb66548ebd071883ee23a3c80944925b29ffc8f7"
+  integrity sha512-z5cD/dDGoG94WRAD6i7zRQgnMNIIT6KMDBkt96aeLrldj4YkofO4Jvevy5NLzlx8bC6JfH5CFJhWZwuqH0F8HA==
   dependencies:
     "@inseefr/trevas" "^0.1.17"
     "@inseefr/vtl-2.0-antlr-tools" "^0.1.0-bundle"
