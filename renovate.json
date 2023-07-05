@@ -4,9 +4,8 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "description": "Group Queen dependencies from the Queen directory",
-      "matchFileNames": ["queen/**"],
-      "groupName": "Queen dependencies"
+      "matchFileNames": ["package.json"],
+      "labels": ["container"]
     }
   ]
 }
