@@ -4,20 +4,9 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
+      "description": "Group Queen dependencies from the Queen directory",
       "matchFileNames": ["queen/**"],
-      "labels": ["queen"]
-    },
-    {
-      "matchFileNames": ["queen-v2/**"],
-      "labels": ["queen-v2"]
-    },
-    {
-      "matchFileNames": ["drama-queen/**"],
-      "labels": ["drama-queen"]
-    },
-    {
-      "matchFileNames": ["package.json"],
-      "labels": ["drama-queen-container"]
+      "groupName": "Queen dependencies"
     }
   ]
 }
