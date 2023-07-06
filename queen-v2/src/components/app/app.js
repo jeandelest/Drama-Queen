@@ -39,7 +39,7 @@ const App = () => {
       {configuration && (
         <AppContext.Provider value={contextValue}>
           <StyleProvider>
-            <ServiceWorkerNotification standalone={configuration.standaloneSW} />
+            <ServiceWorkerNotification standaloneSW={configuration.standaloneSW} />
             <AuthProvider authType={configuration.authenticationType}>
               <BrowserRouter>
                 <Rooter />

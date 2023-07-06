@@ -110,5 +110,5 @@ const ServiceWorkerNotification = ({ standaloneSW }) => {
 export default ServiceWorkerNotification;
 
 ServiceWorkerNotification.propTypes = {
-  standalone: PropTypes.bool.isRequired,
+  standaloneSW: PropTypes.bool.isRequired,
 };
