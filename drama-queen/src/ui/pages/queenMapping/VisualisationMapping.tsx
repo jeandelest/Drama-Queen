@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { isQueenV2Survey } from "utils/checkLunaticVersion/isQueenV2Survey";
+import { isQueenV2Survey } from "core/checkLunaticVersion/isQueenV2Survey";
 
 export function VisualisationMapping() {
   const [searchParams,] = useSearchParams();
@@ -22,5 +22,5 @@ export function VisualisationMapping() {
 
   if (!isSurveyFetched) return <div>Loading</div>
 
-  return isQueenV2 ? <queen-v2-app /> : <queen-app />
+  return <div>Visualisation Mapping : isQueenV2 ? : {isQueenV2}</div>
 }

@@ -1,4 +1,4 @@
-import { fetcher } from "utils/fetcher";
+import { fetcher } from "core/fetcher";
 import type { LunaticSource } from "./typeSurvey";
 
 const lunaticModelVersionBreaking = "2.2.10";

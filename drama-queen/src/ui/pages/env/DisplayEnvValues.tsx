@@ -1,7 +1,7 @@
 import React from 'react'
 import './env.css'
 
-export function EnvPage() {
+export function DisplayEnvValues() {
   return (
     <div className="App">
       <h1>Drama Queen v{APP_VERSION}</h1>

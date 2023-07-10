@@ -1,11 +1,17 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
 
-declare const APP_VERSION: string;
+import { KeycloakParams } from "core/keycloakClient/Oidc";
+
 interface ImportMetaEnv {
   readonly VITE_QUEEN_URL: string;
   readonly VITE_QUEEN_V2_URL: string;
-  readonly VITE_CAMPAIGN_ID_V2: string[];
+  readonly VITE_AUTH_TYPE?: "OIDC";
+  readonly VITE_KEYCLOAK_URL: KeycloakParams["url"];
+  readonly VITE_KEYCLOAK_CLIENT_ID: KeycloakParams["clientId"];
+  readonly VITE_KEYCLOAK_REALM: KeycloakParams["realm"];
+  readonly VITE_KEYCLOAK_ORIGIN: KeycloakParams["origin"];
+
   // more env variables...
 }
 

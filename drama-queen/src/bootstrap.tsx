@@ -1,9 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import { createRouter } from "./routing/router-factory";
-import { RoutingStrategy } from "./routing/types";
-import { injectLegacyEntryQueens } from "utils/injectLegacyQueens";
+import { createRouter } from "./ui/routing/router-factory";
+import { RoutingStrategy } from "./ui/routing/types";
+import { injectLegacyEntryQueens } from "core/injectLegacyQueens";
+import { AuthProvider } from "ui/auth";
 
 const mount = ({
   mountPoint,
@@ -16,11 +17,15 @@ const mount = ({
 }) => {
 
   console.log("Mount Drama Queen")
-  injectLegacyEntryQueens();
+  //injectLegacyEntryQueens();
 
   const router = createRouter({ strategy: routingStrategy, initialPathname });
   const root = createRoot(mountPoint);
-  root.render(<RouterProvider router={router} />);
+  root.render(
+    <AuthProvider authType={import.meta.env.VITE_AUTH_TYPE}>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 
   return () => queueMicrotask(() => root.unmount());
 };

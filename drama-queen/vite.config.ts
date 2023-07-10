@@ -74,6 +74,7 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
     ],
+    base: "/queen",
     build: {
       //   modulePreload: false,
       target: "esnext",
