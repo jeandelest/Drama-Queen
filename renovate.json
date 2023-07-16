@@ -4,19 +4,19 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "matchFiles": ["queen/**"],
+      "matchFileNames": ["queen/**"],
       "labels": ["queen"]
     },
     {
-      "matchFiles": ["queen-v2/**"],
+      "matchFileNames": ["queen-v2/**"],
       "labels": ["queen-v2"]
     },
     {
-      "matchFiles": ["drama-queen/**"],
+      "matchFileNames": ["drama-queen/**"],
       "labels": ["drama-queen"]
     },
     {
-      "matchFiles": ["package.json"],
+      "matchFileNames": ["package.json"],
       "labels": ["drama-queen-container"]
     }
   ]
