@@ -15,8 +15,9 @@ export function SurveyUnitMapping() {
     () => db.surveyUnit.get({ id: id }), [id]
   )
 
+
   if (!surveyUnit) return <div>In Progress</div>
 
 
-  return <div>Survey Unit Mapping id : {id}, readonly : {readonly}</div>
+  return <div>Survey Unit Mapping id : {id}, readonly : {JSON.stringify(surveyUnit)}</div>
 }

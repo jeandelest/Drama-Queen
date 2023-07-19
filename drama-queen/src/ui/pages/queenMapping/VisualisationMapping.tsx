@@ -10,6 +10,7 @@ export function VisualisationMapping() {
 
   useEffect(() => {
     isQueenV2Survey(questionnaireUrl).then((r) => {
+      console.log("response", r);
       setIsQueenV2(r);
       setIsSurveyFetched(true);
     }).catch((e) => {
@@ -22,5 +23,5 @@ export function VisualisationMapping() {
 
   if (!isSurveyFetched) return <div>Loading</div>
 
-  return <div>Visualisation Mapping : isQueenV2 ? : {isQueenV2}</div>
+  return <div>Visualisation Mapping : isQueenV2 ? : {isQueenV2 ? "oui": "non"}</div>
 }
