@@ -1,17 +1,8 @@
+import { SurveyUnit } from "core/model/surveyUnit";
 import type { Table } from "dexie";
 
-//TODO Use Type from lunatic (import @inseefr/lunatic as devDependencies)
-export type SurveyUnit = {
-  id: number;
-  data: object;
-  questionnaireId: string;
-  comment: object;
-  stateData: object;
-  personalization: object;
-};
-
 export type SurveyUnitTable = {
-  surveyUnit: Table<SurveyUnit>;
+  surveyUnit: Table<SurveyUnit, "id">;
 };
 
 export const surveyUnitSchema = {
