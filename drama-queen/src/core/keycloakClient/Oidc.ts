@@ -3,7 +3,7 @@ export declare type Oidc = Oidc.LoggedIn | Oidc.NotLoggedIn;
 export declare namespace Oidc {
   export type NotLoggedIn = {
     isUserLoggedIn: false;
-    login: () => Promise<never>;
+    login: () => void;
   };
 
   export type LoggedIn = {

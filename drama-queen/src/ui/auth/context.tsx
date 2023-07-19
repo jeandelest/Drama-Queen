@@ -1,25 +1,31 @@
-import { assert } from "tsafe/assert";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Oidc } from "core/keycloakClient/Oidc";
 import { createKeycloakClient } from "core/keycloakClient/createKeycloakClient";
 
 
-const context = createContext<Awaited<Oidc> | undefined>(undefined);
+const context = createContext<Oidc | undefined | null>(undefined);
 
 export function useAuthContext() {
   const value = useContext(context);
-  assert(value != undefined, "You must wrap your component inside AuthProvider")
+  if (value === undefined) throw new Error("You must wrap your component inside AuthProvider");
   return value;
 }
+
+export function useAuthToken() {
+  const value = useContext(context);
+  if (!value?.isUserLoggedIn) throw new Error("This hook can not be used outside Authenticated children");
+  return value.getAccessToken();
+}
+
 
 export type AuthProviderProps = { authType?: "OIDC", children: ReactNode };
 
 export function AuthProvider(props: AuthProviderProps) {
   const { authType, children } = props
-  const [oidcClient, setOidcClient] = useState<Awaited<Oidc> | undefined>(() => {
+  const [oidcClient, setOidcClient] = useState<Oidc | null>(() => {
     switch (authType) {
       case "OIDC":
-        return undefined;
+        return null;
       default:
         return dummyOidcClient;
     }

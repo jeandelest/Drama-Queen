@@ -1,13 +1,10 @@
 import type { KeycloakParams, Oidc } from "./Oidc";
 import Keycloak from "keycloak-js";
-import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import { decodeJwt } from "core/tools/jwt";
 import { listenActivity } from "core/tools/listenActivity";
 
-export async function createKeycloakClient(
-  params: KeycloakParams
-): Promise<Oidc> {
+export async function createKeycloakClient(params: KeycloakParams) {
   const {
     url,
     realm,
@@ -18,36 +15,29 @@ export async function createKeycloakClient(
 
   const keycloakInstance = new Keycloak({ url, realm, clientId });
 
-  const isAuthenticated = await keycloakInstance
-    .init({
-      onLoad: "check-sso",
-      silentCheckSsoRedirectUri: `${origin}/silent-sso.html`,
-      checkLoginIframe: false,
-    })
-    .catch((error: Error) => error);
+  const isAuthenticated = await keycloakInstance.init({
+    onLoad: "check-sso",
+    silentCheckSsoRedirectUri: `${origin}/silent-sso.html`,
+    checkLoginIframe: false,
+  });
 
-  //TODO: Make sure that result is always an object.
-  if (isAuthenticated instanceof Error) {
-    throw isAuthenticated;
-  }
-
-  const login: Oidc.NotLoggedIn["login"] = async () => {
+  const login = async () => {
     await keycloakInstance.login({ redirectUri: window.location.href });
     return new Promise<never>(() => {});
   };
 
   if (!isAuthenticated) {
-    return id<Oidc.NotLoggedIn>({
+    return {
       isUserLoggedIn: false,
       login,
-    });
+    } satisfies Oidc;
   }
 
   assert(keycloakInstance.token !== undefined);
 
   let currentAccessToken = keycloakInstance.token;
 
-  const oidc = id<Oidc.LoggedIn>({
+  const oidc = {
     isUserLoggedIn: true,
     getAccessToken: () => currentAccessToken,
     renewToken: async () => {
@@ -57,7 +47,7 @@ export async function createKeycloakClient(
 
       currentAccessToken = keycloakInstance.token;
     },
-  });
+  } satisfies Oidc;
 
   (function callee() {
     const msBeforeExpiration =
