@@ -1,9 +1,10 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Oidc } from "core/keycloakClient/Oidc";
 import { createKeycloakClient } from "core/keycloakClient/createKeycloakClient";
+import { dummyOidcClient } from "core/keycloakClient/dummyOidcClient";
 
 
-const context = createContext<Oidc | undefined | null>(undefined);
+const context = createContext<Oidc | undefined>(undefined);
 
 export function useAuthContext() {
   const value = useContext(context);
@@ -11,9 +12,9 @@ export function useAuthContext() {
   return value;
 }
 
-export function useAuthToken() {
+export function useAccessToken() {
   const value = useContext(context);
-  if (!value?.isUserLoggedIn) throw new Error("This hook can not be used outside Authenticated children");
+  if (!value?.isUserLoggedIn) return null;
   return value.getAccessToken();
 }
 
@@ -22,10 +23,10 @@ export type AuthProviderProps = { authType?: "OIDC", children: ReactNode };
 
 export function AuthProvider(props: AuthProviderProps) {
   const { authType, children } = props
-  const [oidcClient, setOidcClient] = useState<Oidc | null>(() => {
+  const [oidcClient, setOidcClient] = useState<Oidc | undefined>(() => {
     switch (authType) {
       case "OIDC":
-        return null;
+        return undefined;
       default:
         return dummyOidcClient;
     }
@@ -45,9 +46,3 @@ export function AuthProvider(props: AuthProviderProps) {
   return <context.Provider value={oidcClient}>{children}</context.Provider>
 
 }
-
-const dummyOidcClient: Oidc.LoggedIn = {
-  isUserLoggedIn: true,
-  getAccessToken: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  "renewToken": () => Promise.reject("Not implemented")
-};

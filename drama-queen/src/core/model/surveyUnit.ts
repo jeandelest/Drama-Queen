@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { SurveyUnitDataSchema } from "./surveyUnitData";
 
+export const IdAndQuestionnaireIdSchema = z.object({
+  id: z.string(),
+  questionnaireId: z.string(),
+});
+
+export type IdAndQuestionnaireId = z.infer<typeof IdAndQuestionnaireIdSchema>;
+
 const StateDataSchema = z.object({
   state: z.enum(["INIT", "COMPLETED", "VALIDATED"]).nullable(),
   date: z.number().int().min(0), //Should be improve when zod support unix timestamp

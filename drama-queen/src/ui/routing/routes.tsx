@@ -26,6 +26,6 @@ export const routes: RouteObject[] = [
   },
   {
     path: "/synchronize",
-    element: <SynchronizePage />
+    element: <Authenticated><SynchronizePage /></Authenticated>
   }
 ]

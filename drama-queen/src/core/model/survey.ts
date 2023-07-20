@@ -1,4 +1,6 @@
-import type { LunaticSource } from "@inseefr/lunatic/lib/src/use-lunatic/type-source";
+//import type { LunaticSource } from "@inseefr/lunatic/lib/src/use-lunatic/type-source";
+
+import { LunaticSource } from "./type-source";
 
 /**
  * We dont provide zod schema for this type because Survey are very large
