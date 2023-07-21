@@ -9,7 +9,7 @@ export async function createKeycloakClient(params: KeycloakParams) {
     url,
     realm,
     clientId,
-    origin = window.location.origin + import.meta.env.BASE_URL,
+    origin,
     log,
   } = params;
 

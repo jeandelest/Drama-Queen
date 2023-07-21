@@ -1,7 +1,8 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { Oidc } from "core/keycloakClient/Oidc";
 import { createKeycloakClient } from "core/keycloakClient/createKeycloakClient";
 import { dummyOidcClient } from "core/keycloakClient/dummyOidcClient";
+import { useQuery } from "@tanstack/react-query";
 
 
 const context = createContext<Oidc | undefined>(undefined);
@@ -18,31 +19,26 @@ export function useAccessToken() {
   return value.getAccessToken();
 }
 
+export type AuthProviderProps = { authType?: "OIDC", keycloakUrl: string, clientId: string, realm: string, origin?: string, children: ReactNode };
 
-export type AuthProviderProps = { authType?: "OIDC", children: ReactNode };
+let prOidcClient: Promise<Oidc> | undefined = undefined
 
 export function AuthProvider(props: AuthProviderProps) {
-  const { authType, children } = props
-  const [oidcClient, setOidcClient] = useState<Oidc | undefined>(() => {
-    switch (authType) {
-      case "OIDC":
-        return undefined;
-      default:
-        return dummyOidcClient;
+  const { authType, keycloakUrl, clientId, realm, origin = window.location.origin + import.meta.env.BASE_URL, children } = props
+
+  const { data: oidcClient, isLoading } = useQuery({
+    queryKey: ["keycloak-client", authType, keycloakUrl, realm, origin],
+    queryFn: () => {
+      switch (authType) {
+        case "OIDC":
+          return createKeycloakClient({ url: keycloakUrl, clientId, realm, origin });
+        default:
+          return dummyOidcClient;
+      }
     }
   });
 
-  useEffect(() => {
-    if (authType !== "OIDC") {
-      return;
-    }
-    (async () => {
-      const oidcClient = await createKeycloakClient({ url: import.meta.env.VITE_KEYCLOAK_URL, clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID, realm: import.meta.env.VITE_KEYCLOAK_REALM, origin: import.meta.env.VITE_KEYCLOAK_ORIGIN })
-      setOidcClient(oidcClient)
-    })()
-  }, []);
-
-  if (oidcClient === undefined) return <div>Context Loading</div>
+  if (isLoading) return <div>Context Loading</div>
   return <context.Provider value={oidcClient}>{children}</context.Provider>
 
 }

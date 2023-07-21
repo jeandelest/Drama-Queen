@@ -1,8 +1,9 @@
+import { Oidc } from "core/keycloakClient/Oidc";
 import { QueenApi } from "core/queenApi/QueenApi";
 import { createApiClient } from "core/queenApi/createApiClient";
 import { createMockApiClient } from "core/queenApi/createMockApiClient";
-import { ReactNode, createContext, useContext, useRef } from "react";
-import { useAccessToken } from "ui/auth";
+import { ReactNode, createContext, useContext, useMemo, useRef } from "react";
+import { useAccessToken, useAuthContext } from "ui/auth";
 
 const context = createContext<QueenApi | undefined>(undefined);
 
@@ -20,14 +21,18 @@ export type ApiClientProviderProps = {
 export function ApiClientProvider(props: ApiClientProviderProps) {
   const { apiUrl, children } = props;
 
-  const accessToken = useAccessToken()
+  const authCtx = useAuthContext()
 
-  const accessTokenRef = useRef(accessToken);
-  accessTokenRef.current = accessToken
+  const apiClient = useMemo(() =>
+    apiUrl
+      ? createApiClient({
+        apiUrl: apiUrl, 
+        getAccessToken: () => authCtx.isUserLoggedIn ? authCtx.getAccessToken() : null
+      })
+      : createMockApiClient(),
+    [authCtx, apiUrl]
+  );
 
-  const apiClient = apiUrl
-    ? createApiClient({ apiUrl: apiUrl, getAccessToken: () => accessTokenRef.current })
-    : createMockApiClient();
 
   return <context.Provider value={apiClient}>{children}</context.Provider>;
 }
