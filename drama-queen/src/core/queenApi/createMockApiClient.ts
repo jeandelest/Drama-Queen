@@ -3,7 +3,7 @@ import { surveySample } from "./mockData/surveySample";
 
 export function createMockApiClient() {
   return {
-    getListOfSurveyUnitsIdsByCampaign: (_idCampaign) =>
+    getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: (_idCampaign) =>
       Promise.resolve([{ id: "id", questionnaireId: "questionnaireId" }]),
     getSurveyUnitsByCampaign: (_idCampaign) =>
       Promise.reject("Not implemented"),
@@ -24,7 +24,7 @@ export function createMockApiClient() {
           questionnaireIds: ["questionnaireIds"],
         },
       ]),
-    getSurvey: (_idSurvey) => Promise.resolve(surveySample),
+    getQuestionnaire: (_idSurvey) => Promise.resolve(surveySample),
     getRequiredNomenclaturesByCampaign: () => Promise.resolve([]),
     getNomenclature: (idNomenclature) =>
       Promise.resolve([{ id: `${idNomenclature}`, label: "label" }]),

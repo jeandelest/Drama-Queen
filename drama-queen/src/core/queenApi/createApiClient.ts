@@ -8,7 +8,7 @@ import memoize from "memoizee";
 import { SurveyUnitData } from "../model/surveyUnitData";
 import { QueenApi } from "./QueenApi";
 import { Campaign, CampaignSchema } from "../model/campaing";
-import { Survey } from "../model/survey";
+import { APIReturnedListOfSurvey, Questionnaire } from "../model/survey";
 import {
   Nomenclature,
   NomenclatureSchema,
@@ -50,7 +50,7 @@ export function createApiClient(params: {
   })();
 
   return {
-    getListOfSurveyUnitsIdsByCampaign: memoize(
+    getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: memoize(
       (idCampaign) =>
         axiosInstance
           .get<SurveyUnit>(`/api/campaign/${idCampaign}/survey-units`)
@@ -90,11 +90,14 @@ export function createApiClient(params: {
           .then(({ data }) => CampaignSchema.array().parse(data)),
       { promise: true }
     ),
-    getSurvey: memoize(
+    getQuestionnaire: memoize(
       (idSurvey) =>
         axiosInstance
-          .get<Survey>(`/api/survey-unit/${idSurvey}`)
-          .then(({ data }) => data),
+          .get<APIReturnedListOfSurvey>(`/api/questionnaire/${idSurvey}`)
+          .then(({ data }) => {
+            console.log(data);
+            return data.value;
+          }),
       { promise: true }
     ),
     getRequiredNomenclaturesByCampaign: memoize(

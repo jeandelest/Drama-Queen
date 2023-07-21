@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Survey } from "core/model/survey";
+import { Questionnaire } from "core/model/survey";
 
 const lunaticModelVersionBreaking = "2.2.10";
 
@@ -22,7 +22,7 @@ export async function isQueenV2Survey(
         Accept: "application/json;charset=utf-8",
       },
     })
-    .get<Survey>("")
+    .get<Questionnaire>("")
     .then(({ data }) => data);
 
   if (lunaticModelVersion === undefined) {

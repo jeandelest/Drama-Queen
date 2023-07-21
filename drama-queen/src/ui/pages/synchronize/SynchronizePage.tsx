@@ -1,9 +1,11 @@
-import { useGetListOfSurveyUnitsIdByCampaign } from "ui/query/useApiClient"
+import { useIsFetching } from '@tanstack/react-query'
+
+
 
 export const SynchronizePage = () => {
-  const { isLoading, data } = useGetListOfSurveyUnitsIdByCampaign("SIMPSONS2020X00");
+  const isFetching = useIsFetching()
 
-  if (isLoading) return 'Loading...'
+  if (isFetching) return 'Loading...'
 
-  return <div>SynchronizePage data: {JSON.stringify(data)} </div>
+  return <div>SynchronizePage data</div>
 }

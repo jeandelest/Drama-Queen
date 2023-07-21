@@ -1,18 +1,18 @@
 import { Campaign } from "../model/campaing";
 import { Nomenclature, RequiredNomenclatures } from "../model/nomenclature";
 import { Paradata } from "../model/paradata";
-import { Survey } from "../model/survey";
+import { Questionnaire } from "../model/survey";
 import { IdAndQuestionnaireId, SurveyUnit } from "../model/surveyUnit";
 import { SurveyUnitData } from "../model/surveyUnitData";
 
 export type QueenApi = {
-  getListOfSurveyUnitsIdsByCampaign: {
+  getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: {
     (idCampaign: string): Promise<IdAndQuestionnaireId[]>;
   };
   /**
    * We hope API will implement this endpoint
    * @param idCampaign
-   * @return Array of SurveyUnit for campaign 
+   * @return Array of SurveyUnit for campaign
    * @todo Implement this functions in the API
    */
   getSurveyUnitsByCampaign: {
@@ -24,17 +24,14 @@ export type QueenApi = {
   putSurveyUnit: {
     (idSurveyUnit: string, surveyUnit: SurveyUnit): void;
   };
-  /**
-   *
-   */
   postSurveyUnitInTemp: {
     (idSurveyUnit: string, surveyUnitData: SurveyUnitData): void;
   };
   getCampaigns: {
     (): Promise<Campaign[]>;
   };
-  getSurvey: {
-    (idSurvey: string): Promise<Survey>;
+  getQuestionnaire: {
+    (idQuestionnaire: string): Promise<Questionnaire>;
   };
   getRequiredNomenclaturesByCampaign: {
     (idCampaign: string): Promise<RequiredNomenclatures>;
