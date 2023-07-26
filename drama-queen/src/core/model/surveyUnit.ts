@@ -16,7 +16,7 @@ const StateDataSchema = z.object({
 
 export const SurveyUnitSchema = z.object({
   questionnaireId: z.string(),
-  personalisation: z.object({}).passthrough().array(),
+  personalization: z.object({}).passthrough().array(),
   data: SurveyUnitDataSchema,
   comment: z.object({}), // not implemented yet, only present in test data
   stateData: StateDataSchema,

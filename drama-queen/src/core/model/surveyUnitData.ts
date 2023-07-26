@@ -9,6 +9,8 @@ const variableSchema = z
     z.number(),
     z.string().nullable().array(),
     z.number().array(),
+    z.boolean(),
+    z.boolean().array(),
   ])
   .nullable();
 
@@ -24,12 +26,15 @@ type CollectedValue = z.infer<typeof CollectedValueSchema>;
 
 assert<Extends<CollectedValue, LunaticCollectedValue>>();
 
-export const SurveyUnitDataSchema = z.object({
-  CALCULATED: z.record(variableSchema),
-  EXTERNAL: z.record(variableSchema),
-  COLLECTED: z.record(CollectedValueSchema),
-});
+export const SurveyUnitDataSchema = z
+  .object({
+    CALCULATED: z.record(variableSchema),
+    EXTERNAL: z.record(variableSchema),
+    COLLECTED: z.record(CollectedValueSchema),
+  })
+  .partial();
 
 export type SurveyUnitData = z.infer<typeof SurveyUnitDataSchema>;
 
-assert<Extends<SurveyUnitData, LunaticData>>();
+// Needs this pr to be merge : https://github.com/InseeFr/Lunatic/pull/617
+//assert<Extends<SurveyUnitData, LunaticData>>();

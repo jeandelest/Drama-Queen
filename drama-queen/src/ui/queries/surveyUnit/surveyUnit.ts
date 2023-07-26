@@ -9,7 +9,7 @@ export const useGetSurveyUnit = (idSurveyUnit: string) => {
   });
 };
 
-const useGetSurveyUnits = (idsSurveyUnit: string[] | undefined) => {
+export const useGetSurveyUnits = (idsSurveyUnit: string[] | undefined) => {
   const { getSurveyUnit } = useApiClient();
   const surveyUnitIds = idsSurveyUnit ?? [];
   return useQueries({
@@ -23,37 +23,16 @@ const useGetSurveyUnits = (idsSurveyUnit: string[] | undefined) => {
 const useGetSurveyUnitIds = (idCampaign: string) => {
   const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign } = useApiClient();
   return useQuery({
-    queryKey: ["campaign", idCampaign],
+    queryKey: ["idSurveyUnit-questionnaireId", idCampaign],
     queryFn: () => getSurveyUnitsIdsAndQuestionnaireIdsByCampaign(idCampaign),
   });
 };
 
 export const useGetSurveyUnitsByCampaign = (idCampaign: string) => {
-  const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign, getSurveyUnit } =
-    useApiClient();
-  const { data: surveyUnitIdsAndQuestionnaireIds } = useQuery({
-    queryKey: ["idSurveyUnit-questionnaireId", idCampaign],
-    queryFn: () => getSurveyUnitsIdsAndQuestionnaireIdsByCampaign(idCampaign),
-  });
+  const { data: surveyUnitIdsAndQuestionnaireIds } =
+    useGetSurveyUnitIds(idCampaign);
   const surveyUnitIds = surveyUnitIdsAndQuestionnaireIds?.map(({ id }) => id);
   const surveyUnitsResult = useGetSurveyUnits(surveyUnitIds);
 
   return surveyUnitsResult;
-};
-/**
- * Returns the list of survey units associated with the campaign and assigned to the interviewer.
- * @param idCampaign
- * @returns SurveyUnit[]
- * We would prefer to get this data with one api fetch
- */
-export const useGetSurveyUnitsByCampaignOther = (idCampaign: string) => {
-  const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign, getSurveyUnit } =
-    useApiClient();
-  return useQuery({
-    queryKey: ["campaign", idCampaign],
-    queryFn: () =>
-      getSurveyUnitsIdsAndQuestionnaireIdsByCampaign(idCampaign).then((data) =>
-        data.map(({ id }) => getSurveyUnit(id))
-      ),
-  });
 };

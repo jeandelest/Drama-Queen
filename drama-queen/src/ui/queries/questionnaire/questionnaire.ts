@@ -10,8 +10,10 @@ export const useGetQuestionnaire = (idQuestionnaire: string) => {
   });
 };
 
-export const useGetQuestionnaireAndNomenclatures = (idSurvey: string) => {
-  const surveyResult = useGetQuestionnaire(idSurvey);
+export const useGetQuestionnaireAndNomenclatures = (
+  idQuestionnaire: string
+) => {
+  const surveyResult = useGetQuestionnaire(idQuestionnaire);
   const nomenclaturesResult = useGetNomenclatures(
     surveyResult.data?.suggesters
   );
