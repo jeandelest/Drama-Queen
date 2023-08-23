@@ -1,17 +1,14 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-//TODO Remove import from core
-import { LunaticSource } from "core/model/type-source";
 import { useApiClient } from "ui/api/context";
 
 export const useGetNomenclatures = (
-  suggesters: LunaticSource["suggesters"]
+  nomenclatureIds: string[]
 ) => {
-  const suggesterArray = suggesters ?? [];
   const { getNomenclature } = useApiClient();
   return useQueries({
-    queries: suggesterArray.map(({ name }) => ({
-      queryKey: ["nomenclature", name],
-      queryFn: () => getNomenclature(name),
+    queries: nomenclatureIds.map((id) => ({
+      queryKey: ["nomenclature", id],
+      queryFn: () => getNomenclature(id),
     })),
   });
 };

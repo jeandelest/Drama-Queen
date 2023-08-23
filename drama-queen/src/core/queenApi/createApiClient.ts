@@ -95,7 +95,6 @@ export function createApiClient(params: {
         axiosInstance
           .get<APIReturnedListOfSurvey>(`/api/questionnaire/${idSurvey}`)
           .then(({ data }) => {
-            console.log(data);
             return data.value;
           }),
       { promise: true }

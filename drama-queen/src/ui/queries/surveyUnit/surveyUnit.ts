@@ -9,30 +9,22 @@ export const useGetSurveyUnit = (idSurveyUnit: string) => {
   });
 };
 
-export const useGetSurveyUnits = (idsSurveyUnit: string[] | undefined) => {
-  const { getSurveyUnit } = useApiClient();
-  const surveyUnitIds = idsSurveyUnit ?? [];
+export const useGetSurveyUnits = (idsCampaign: string[]) => {
+  const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign, getSurveyUnit } =
+    useApiClient();
   return useQueries({
-    queries: surveyUnitIds.map((id) => ({
-      queryKey: ["surveyUnit", id],
-      queryFn: () => getSurveyUnit(id),
+    queries: idsCampaign.map((idCampaign) => ({
+      queryKey: ["idSurveyUnit-questionnaireId", idCampaign],
+      queryFn: async () => {
+        const data = await getSurveyUnitsIdsAndQuestionnaireIdsByCampaign(
+          idCampaign
+        );
+        return Promise.all(
+          data.map(({ id }) => {
+            return getSurveyUnit(id);
+          })
+        );
+      },
     })),
   });
-};
-
-const useGetSurveyUnitIds = (idCampaign: string) => {
-  const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign } = useApiClient();
-  return useQuery({
-    queryKey: ["idSurveyUnit-questionnaireId", idCampaign],
-    queryFn: () => getSurveyUnitsIdsAndQuestionnaireIdsByCampaign(idCampaign),
-  });
-};
-
-export const useGetSurveyUnitsByCampaign = (idCampaign: string) => {
-  const { data: surveyUnitIdsAndQuestionnaireIds } =
-    useGetSurveyUnitIds(idCampaign);
-  const surveyUnitIds = surveyUnitIdsAndQuestionnaireIds?.map(({ id }) => id);
-  const surveyUnitsResult = useGetSurveyUnits(surveyUnitIds);
-
-  return surveyUnitsResult;
 };
