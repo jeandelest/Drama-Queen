@@ -1,4 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
+import { SurveyUnit } from "core/model/surveyUnit";
 import { useApiClient } from "ui/api/context";
 
 export const useGetSurveyUnit = (idSurveyUnit: string) => {
@@ -9,7 +10,7 @@ export const useGetSurveyUnit = (idSurveyUnit: string) => {
   });
 };
 
-export const useGetSurveyUnits = (idsCampaign: string[]) => {
+export const useGetSurveyUnitsGroupedByCampaign = (idsCampaign: string[]) => {
   const { getSurveyUnitsIdsAndQuestionnaireIdsByCampaign, getSurveyUnit } =
     useApiClient();
   return useQueries({

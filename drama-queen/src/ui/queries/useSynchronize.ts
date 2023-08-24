@@ -1,5 +1,5 @@
 import { useGetCampaigns } from "./campaign";
-import { useGetSurveyUnits } from "./surveyUnit";
+import { useGetSurveyUnitsGroupedByCampaign } from "./surveyUnit";
 import { useGetQuestionnaires } from "./questionnaire";
 import { useGetNomenclatures } from "./questionnaire/nomenclature";
 import { type UseQueryResult } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ export const useSynchronize = () => {
     ),
   ];
 
-  const surveyUnitsQueries = useGetSurveyUnits(campaignsIds);
+  const surveyUnitsQueries = useGetSurveyUnitsGroupedByCampaign(campaignsIds);
 
   const questionnairesQueries = useGetQuestionnaires(questionnaireIds);
   const suggestersNames = deduplicate(
@@ -24,10 +24,10 @@ export const useSynchronize = () => {
       .map((suggester) => suggester?.name)
   );
   const nomenclatureQueries = useGetNomenclatures(suggestersNames);
-  surveyUnitsQueries;
-  const surveyUnits = flattenQueriesResults(surveyUnitsQueries);
-  const questionnaires = flattenQueriesResults(questionnairesQueries);
-  const nomenclatures = flattenQueriesResults(nomenclatureQueries);
+
+  const surveyUnits = onSuccessQueriesResultsData(surveyUnitsQueries);
+  const questionnaires = onSuccessQueriesResultsData(questionnairesQueries);
+  const nomenclatures = onSuccessQueriesResultsData(nomenclatureQueries);
 
   console.log({ campaigns, surveyUnits, questionnaires, nomenclatures });
 
@@ -41,10 +41,7 @@ function deduplicate<T>(items: (T | undefined)[]): T[] {
   return [...new Set(items.filter((data) => !!data))] as T[];
 }
 
-function flattenQueriesResults<T>(queries: UseQueryResult<T>[]): T[] {
+function onSuccessQueriesResultsData<T>(queries: UseQueryResult<T>[]): T[] {
   // If there is one unfinished query consider it not loaded
-  return queries
-    .filter((q) => q.status === "success")
-    .map((q) => q.data!)
-    .flat();
+  return queries.filter((q) => q.status === "success").map((q) => q.data!);
 }

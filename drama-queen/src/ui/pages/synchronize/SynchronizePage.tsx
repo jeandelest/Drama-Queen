@@ -1,5 +1,5 @@
 import { useIsFetching } from '@tanstack/react-query'
-import { useGetCampaigns, useGetSurveyUnits } from 'ui/queries'
+import { useGetCampaigns, useGetSurveyUnitsGroupedByCampaign } from 'ui/queries'
 import { useSynchronize } from 'ui/queries/useSynchronize'
 
 
