@@ -4,6 +4,9 @@ import { useGetQuestionnaires } from "./questionnaire";
 import { useGetNomenclatures } from "./questionnaire/nomenclature";
 import { type UseQueryResult } from "@tanstack/react-query";
 
+/**
+ * Pull data from the server
+ */
 export const useSynchronize = () => {
   const { data: campaigns } = useGetCampaigns();
 
@@ -24,15 +27,46 @@ export const useSynchronize = () => {
       .map((suggester) => suggester?.name)
   );
   const nomenclatureQueries = useGetNomenclatures(suggestersNames);
+  const allQueries = [...surveyUnitsQueries, ...questionnairesQueries, ...nomenclatureQueries]
+  const surveyUnits = getQueriesData(surveyUnitsQueries);
+  const questionnaires = getQueriesData(questionnairesQueries);
+  const nomenclatures = getQueriesData(nomenclatureQueries);
 
-  const surveyUnits = onSuccessQueriesResultsData(surveyUnitsQueries);
-  const questionnaires = onSuccessQueriesResultsData(questionnairesQueries);
-  const nomenclatures = onSuccessQueriesResultsData(nomenclatureQueries);
-
-  console.log({ campaigns, surveyUnits, questionnaires, nomenclatures });
-
-  return { campaigns, surveyUnits, questionnaires, nomenclatures };
+  return {
+    data: { campaigns, surveyUnits, questionnaires, nomenclatures },
+    status: getGlobalStatus(allQueries),
+    progress: {
+      surveyUnits: getQueriesProgress(surveyUnitsQueries),
+      questionnaires: getQueriesProgress(questionnairesQueries),
+      nomenclatures: getQueriesProgress(nomenclatureQueries)
+    },
+    errors: allQueries.filter(q => q.status === 'error').map(q => q.error),
+  };
 };
+
+/**
+ * Compute the status of the synchronization
+ */
+function getGlobalStatus(queries: {status: "error" | "success" | "loading"}[]): 'loading' | 'error' | 'success' {
+  const erroredQueries = queries.filter(q => q.status === 'error')
+  const loadingQueries = queries.filter(q => q.status === 'loading')
+  if (loadingQueries.length > 0) {
+    return 'loading'
+  } else if (erroredQueries.length > 0) {
+    return 'error'
+  }
+  return 'success'
+}
+
+/**
+ * Compute the progression of multiple queries
+ */
+function getQueriesProgress(queries: {status: "error" | "success" | "loading"}[]): number | null {
+  if (queries.length === 0) {
+    return null;
+  }
+  return queries.filter(q => q.status !== 'loading').length / queries.length
+}
 
 /**
  * Remove undefined values from an array and remove duplicates
@@ -41,7 +75,6 @@ function deduplicate<T>(items: (T | undefined)[]): T[] {
   return [...new Set(items.filter((data) => !!data))] as T[];
 }
 
-function onSuccessQueriesResultsData<T>(queries: UseQueryResult<T>[]): T[] {
-  // If there is one unfinished query consider it not loaded
+function getQueriesData<T>(queries: UseQueryResult<T>[]): T[] {
   return queries.filter((q) => q.status === "success").map((q) => q.data!);
 }
