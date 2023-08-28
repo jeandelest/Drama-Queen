@@ -3,7 +3,7 @@ import {useCallback} from "react";
 const texts = {
     'sync.progress': 'Synchronisation en cours',
     'sync.download': 'Téléchargement des données...',
-    'sync.surveyUnits': 'Survey Units',
+    'sync.surveyUnits': 'Unités enquêtées',
     'sync.nomenclatures': 'Nomenclatures',
     'sync.questionnaires': 'Questionnaires',
 } as const
