@@ -1,31 +1,65 @@
-import { useIsFetching } from '@tanstack/react-query'
 import { LinearProgress, Stack, Typography } from "@mui/material";
 import { useTranslate } from "hooks/useTranslate";
 import preloader from './preloader.svg'
 import { tss } from "tss-react/mui";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSynchronize } from 'hooks/useSynchronize';
+import type { SurveyUnitWithId } from "core/model/surveyUnit";
+import { useAddSurveyUnit } from "hooks/queries/indexedDb/surveyUnit/surveyUnit";
 
-type SyncState = "Idle" |
-    "Upload" |
-    "Download" |
-    "Index";
+type SyncState = "Idle" | "Upload" | "Download" | "Index";
 
 
 export const SynchronizePage = () => {
     const { classes } = useStyles();
-    const [state, setState] = useState<SyncState>("Download")
+    const [state,] = useState<SyncState>("Index")
     return <Stack spacing={3} alignItems="center">
         <img src={preloader} alt="" className={classes.spinner} />
         {state === "Download" && <DownloadProgress />}
+        {state === "Index" && <IndexProgress />}
     </Stack>;
 }
 
+const IndexProgress = () => {
+
+    const testData = {
+        "id": "23",
+        "questionnaireId": "VQS2021X00",
+        "personalization": {},
+        "data": {
+            "EXTERNAL": {},
+            "COLLECTED": {
+                "NOM": {
+                    "EDITED": null,
+                    "FORCED": null,
+                    "INPUTED": null,
+                    "PREVIOUS": null,
+                    "COLLECTED": null
+                },
+            },
+            "CALCULATED": {}
+        },
+        "comment": {},
+        "stateData": {
+            "state": "INIT",
+            "date": 1685457465071,
+            "currentPage": "19"
+        }
+    } satisfies SurveyUnitWithId
+
+    const { mutateAsync } = useAddSurveyUnit(testData);
+
+    useEffect(() => {
+        mutateAsync()
+    }, []);
+    return <>Index</>
+}
 const DownloadProgress = () => {
     const { __ } = useTranslate();
     const { classes } = useStyles();
     const { progress, data, errors } = useSynchronize();
-    console.log(data);
+    console.log("data", data)
+    console.log("errors", errors)
     const progressBars = [{
         progress: progress.surveyUnits,
         label: __('sync.surveyUnits')
@@ -59,7 +93,7 @@ const DownloadProgress = () => {
 }
 
 const useStyles = tss
-    .create(({ theme }) => ({
+    .create(() => ({
         lightText: {
             opacity: .75,
         },
