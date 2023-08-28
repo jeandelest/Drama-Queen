@@ -1,5 +1,4 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { SurveyUnit } from "core/model/surveyUnit";
 import { useApiClient } from "ui/api/context";
 
 export const useGetSurveyUnit = (idSurveyUnit: string) => {

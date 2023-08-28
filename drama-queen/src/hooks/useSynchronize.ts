@@ -1,7 +1,7 @@
-import { useGetCampaigns } from "../ui/queries/campaign";
-import { useGetSurveyUnitsGroupedByCampaign } from "../ui/queries/surveyUnit";
-import { useGetQuestionnaires } from "../ui/queries/questionnaire";
-import { useGetNomenclatures } from "../ui/queries/questionnaire/nomenclature";
+import { useGetCampaigns } from "hooks/queries/api/campaign";
+import { useGetSurveyUnitsGroupedByCampaign } from "hooks/queries/api/surveyUnit";
+import { useGetQuestionnaires } from "hooks/queries/api/questionnaire";
+import { useGetNomenclatures } from "hooks/queries/api/questionnaire/nomenclature";
 import { type UseQueryResult } from "@tanstack/react-query";
 
 /**
@@ -27,7 +27,11 @@ export const useSynchronize = () => {
       .map((suggester) => suggester?.name)
   );
   const nomenclatureQueries = useGetNomenclatures(suggestersNames);
-  const allQueries = [...surveyUnitsQueries, ...questionnairesQueries, ...nomenclatureQueries]
+  const allQueries = [
+    ...surveyUnitsQueries,
+    ...questionnairesQueries,
+    ...nomenclatureQueries,
+  ];
   const surveyUnits = getQueriesData(surveyUnitsQueries);
   const questionnaires = getQueriesData(questionnairesQueries);
   const nomenclatures = getQueriesData(nomenclatureQueries);
@@ -38,34 +42,38 @@ export const useSynchronize = () => {
     progress: {
       surveyUnits: getQueriesProgress(surveyUnitsQueries),
       questionnaires: getQueriesProgress(questionnairesQueries),
-      nomenclatures: getQueriesProgress(nomenclatureQueries)
+      nomenclatures: getQueriesProgress(nomenclatureQueries),
     },
-    errors: allQueries.filter(q => q.status === 'error').map(q => q.error),
+    errors: allQueries.filter((q) => q.status === "error").map((q) => q.error),
   };
 };
 
 /**
  * Compute the status of the synchronization
  */
-function getGlobalStatus(queries: {status: "error" | "success" | "loading"}[]): 'loading' | 'error' | 'success' {
-  const erroredQueries = queries.filter(q => q.status === 'error')
-  const loadingQueries = queries.filter(q => q.status === 'loading')
+function getGlobalStatus(
+  queries: { status: "error" | "success" | "loading" }[]
+): "loading" | "error" | "success" {
+  const erroredQueries = queries.filter((q) => q.status === "error");
+  const loadingQueries = queries.filter((q) => q.status === "loading");
   if (loadingQueries.length > 0) {
-    return 'loading'
+    return "loading";
   } else if (erroredQueries.length > 0) {
-    return 'error'
+    return "error";
   }
-  return 'success'
+  return "success";
 }
 
 /**
  * Compute the progression of multiple queries
  */
-function getQueriesProgress(queries: {status: "error" | "success" | "loading"}[]): number | null {
+function getQueriesProgress(
+  queries: { status: "error" | "success" | "loading" }[]
+): number | null {
   if (queries.length === 0) {
     return null;
   }
-  return queries.filter(q => q.status !== 'loading').length / queries.length
+  return queries.filter((q) => q.status !== "loading").length / queries.length;
 }
 
 /**
