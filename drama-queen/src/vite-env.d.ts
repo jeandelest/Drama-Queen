@@ -11,8 +11,6 @@ interface ImportMetaEnv {
   readonly VITE_KEYCLOAK_URL: KeycloakParams["url"];
   readonly VITE_KEYCLOAK_CLIENT_ID: KeycloakParams["clientId"];
   readonly VITE_KEYCLOAK_REALM: KeycloakParams["realm"];
-  readonly VITE_KEYCLOAK_ORIGIN: KeycloakParams["origin"];
-
   // more env variables...
 }
 
