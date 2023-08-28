@@ -6,3 +6,5 @@ export type ParadataTable = {
 };
 
 export const paradataSchema = { paradata: "++id,idSU,events" };
+
+const newParadataSchema = { paradata: "idSu" }; //We just should need to index idSu only
