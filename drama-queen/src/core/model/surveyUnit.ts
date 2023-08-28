@@ -9,7 +9,7 @@ export const IdAndQuestionnaireIdSchema = z.object({
 export type IdAndQuestionnaireId = z.infer<typeof IdAndQuestionnaireIdSchema>;
 
 const StateDataSchema = z.object({
-  state: z.enum(["INIT", "COMPLETED", "VALIDATED"]).nullable(),
+  state: z.enum(["INIT", "COMPLETED", "VALIDATED", "EXTRACTED"]),
   date: z.number().int().min(0), //Should be improve when zod support unix timestamp
   currentPage: z.string(), //Same type as pager.page in Lunatic
 });
@@ -19,7 +19,7 @@ export const SurveyUnitSchema = z.object({
   personalization: z.object({}).passthrough().array(),
   data: SurveyUnitDataSchema,
   comment: z.object({}), // not implemented yet, only present in test data
-  stateData: StateDataSchema,
+  stateData: StateDataSchema.optional(),
 });
 
 export type SurveyUnit = z.infer<typeof SurveyUnitSchema>;
