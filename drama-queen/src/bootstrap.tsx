@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { injectLegacyEntryQueens } from "core/injectLegacyQueens";
 import { AuthProvider } from "ui/auth";
 import { ApiClientProvider } from "ui/api/context";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient({
 });
@@ -31,6 +32,7 @@ const mount = ({
           <RouterProvider router={router} />
         </ApiClientProvider>
       </AuthProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 
