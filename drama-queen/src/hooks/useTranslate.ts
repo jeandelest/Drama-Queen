@@ -1,5 +1,3 @@
-import {useCallback} from "react";
-
 const texts = {
     'sync.progress': 'Synchronisation en cours',
     'sync.download': 'Téléchargement des données...',
