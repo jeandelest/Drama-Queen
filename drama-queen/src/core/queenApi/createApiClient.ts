@@ -1,7 +1,8 @@
 import {
+  IdAndQuestionnaireId,
   IdAndQuestionnaireIdSchema,
-  SurveyUnit,
   SurveyUnitSchema,
+  SurveyUnitWithId,
 } from "../model/surveyUnit";
 import axios from "axios";
 import memoize from "memoizee";
@@ -53,7 +54,7 @@ export function createApiClient(params: {
     getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: memoize(
       (idCampaign) =>
         axiosInstance
-          .get<SurveyUnit>(`/api/campaign/${idCampaign}/survey-units`)
+          .get<IdAndQuestionnaireId>(`/api/campaign/${idCampaign}/survey-units`)
           .then(({ data }) => IdAndQuestionnaireIdSchema.array().parse(data)),
       { promise: true }
     ),
@@ -70,16 +71,19 @@ export function createApiClient(params: {
       (idSurveyUnit) =>
         axiosInstance
           .get<SurveyUnitData>(`/api/survey-unit/${idSurveyUnit}`)
-          .then(({ data }) => SurveyUnitSchema.parse(data)),
+          .then(({ data }) => ({
+            id: idSurveyUnit,
+            ...SurveyUnitSchema.parse(data),
+          })),
       { promise: true }
     ),
     putSurveyUnit: (idSurveyUnit, surveyUnit) =>
-      axiosInstance.put<SurveyUnit>(
+      axiosInstance.put<SurveyUnitWithId>(
         `api/survey-unit/${idSurveyUnit}`,
         surveyUnit
       ),
     postSurveyUnitInTemp: (idSurveyUnit, surveyUnit) =>
-      axiosInstance.post<SurveyUnit>(
+      axiosInstance.post<SurveyUnitWithId>(
         `api/survey-unit/${idSurveyUnit}/temp-zone`,
         surveyUnit
       ),

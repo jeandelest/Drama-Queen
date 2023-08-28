@@ -11,11 +11,11 @@ export function createMockApiClient() {
       Promise.resolve(createSUMocked({ idSu: idSurveyUnit })),
     putSurveyUnit: (idSurveyUnit, surveyUnit) =>
       console.log("putSurveyUnit", `id: ${idSurveyUnit}`, surveyUnit),
-    postSurveyUnitInTemp: (idSurveyUnit, surveyUnitData) =>
+    postSurveyUnitInTemp: (idSurveyUnit, surveyUnit) =>
       console.log(
         "postSurveyUnitInTemp",
         `id: ${idSurveyUnit}`,
-        surveyUnitData
+        surveyUnit
       ),
     getCampaigns: () =>
       Promise.resolve([
@@ -37,7 +37,7 @@ function createSUMocked(props: { idSu?: string; idCampaign?: string }) {
   return {
     id: `idSU:${idSu}`,
     questionnaireId: `idCampaign${idCampaign}`,
-    personalisation: [{}],
+    personalization: [{}],
     data: {
       EXTERNAL: {},
       CALCULATED: {},
