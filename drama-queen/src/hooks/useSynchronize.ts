@@ -1,7 +1,7 @@
-import { useGetCampaigns } from "./campaign";
-import { useGetSurveyUnitsGroupedByCampaign } from "./surveyUnit";
-import { useGetQuestionnaires } from "./questionnaire";
-import { useGetNomenclatures } from "./questionnaire/nomenclature";
+import { useGetCampaigns } from "../ui/queries/campaign";
+import { useGetSurveyUnitsGroupedByCampaign } from "../ui/queries/surveyUnit";
+import { useGetQuestionnaires } from "../ui/queries/questionnaire";
+import { useGetNomenclatures } from "../ui/queries/questionnaire/nomenclature";
 import { type UseQueryResult } from "@tanstack/react-query";
 
 /**
