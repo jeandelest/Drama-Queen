@@ -6,19 +6,18 @@ import { tss } from "tss-react/mui";
 import { Fragment, useState } from "react";
 import { useSynchronize } from 'hooks/useSynchronize';
 
-enum SyncState {
-    Idle,
-    Upload,
-    Download,
-    Index,
-}
+type SyncState = "Idle" |
+    "Upload" |
+    "Download" |
+    "Index";
+
 
 export const SynchronizePage = () => {
     const { classes } = useStyles();
-    const [state, setState] = useState<SyncState>(SyncState.Download)
+    const [state, setState] = useState<SyncState>("Download")
     return <Stack spacing={3} alignItems="center">
         <img src={preloader} alt="" className={classes.spinner} />
-        {state === SyncState.Download && <DownloadProgress />}
+        {state === "Download" && <DownloadProgress />}
     </Stack>;
 }
 
