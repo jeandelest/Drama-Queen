@@ -1,13 +1,20 @@
-import { useGetCampaigns } from "hooks/queries/api/campaign";
-import { useGetSurveyUnitsGroupedByCampaign } from "hooks/queries/api/surveyUnit";
-import { useGetQuestionnaires } from "hooks/queries/api/questionnaire";
-import { useGetNomenclatures } from "hooks/queries/api/questionnaire/nomenclature";
-import { type UseQueryResult } from "@tanstack/react-query";
+import {useGetCampaigns} from "hooks/queries/api/campaign";
+import {useGetSurveyUnitsGroupedByCampaign} from "hooks/queries/api/surveyUnit";
+import {useGetQuestionnaires} from "hooks/queries/api/questionnaire";
+import {useGetNomenclatures} from "hooks/queries/api/questionnaire/nomenclature";
+import {type UseQueryResult} from "@tanstack/react-query";
+import {SyncError} from "./queries/SyncError";
+import {useEffect} from "react";
+import {useRefSync} from "./useRefSync";
+
+type Args = {
+  onEnd: (data: PullData, errors: SyncError[]) => void
+}
 
 /**
  * Pull data from the server
  */
-export const useSynchronize = () => {
+export const usePullData = ({onEnd}: Args) => {
   const { data: campaigns } = useGetCampaigns();
 
   const campaignsIds = campaigns?.map(({ id }) => id) ?? [];
@@ -32,36 +39,48 @@ export const useSynchronize = () => {
     ...questionnairesQueries,
     ...nomenclatureQueries,
   ];
-  const surveyUnits = getQueriesData(surveyUnitsQueries);
+  const surveyUnits = getQueriesData(surveyUnitsQueries).flat(1);
   const questionnaires = getQueriesData(questionnairesQueries);
   const nomenclatures = getQueriesData(nomenclatureQueries);
+  const status = getGlobalStatus(allQueries)
+  const data = useRefSync({ campaigns, surveyUnits, questionnaires, nomenclatures })
+  const errors = useRefSync(allQueries
+      .filter((q) => q.status === "error")
+      .map((q) => q.error) as SyncError[])
+  const onEndCb = useRefSync(onEnd)
+
+  useEffect(() => {
+    if (status === 'finished') {
+      onEndCb.current(data.current, errors.current)
+    }
+  }, [status]);
 
   return {
-    data: { campaigns, surveyUnits, questionnaires, nomenclatures },
+    data: data.current,
     status: getGlobalStatus(allQueries),
     progress: {
       surveyUnits: getQueriesProgress(surveyUnitsQueries),
       questionnaires: getQueriesProgress(questionnairesQueries),
       nomenclatures: getQueriesProgress(nomenclatureQueries),
     },
-    errors: allQueries.filter((q) => q.status === "error").map((q) => q.error),
+    errors: errors.current,
   };
 };
+
+export type PullData = ReturnType<typeof usePullData>["data"]
+
 
 /**
  * Compute the status of the synchronization
  */
 function getGlobalStatus(
-  queries: { status: "error" | "success" | "loading" }[]
-): "loading" | "error" | "success" {
-  const erroredQueries = queries.filter((q) => q.status === "error");
+  queries: { status: "success" | "error" | "loading" }[]
+): "loading" | "finished" {
   const loadingQueries = queries.filter((q) => q.status === "loading");
-  if (loadingQueries.length > 0) {
+  if (loadingQueries.length > 0 || queries.length === 0) {
     return "loading";
-  } else if (erroredQueries.length > 0) {
-    return "error";
   }
-  return "success";
+  return "finished";
 }
 
 /**

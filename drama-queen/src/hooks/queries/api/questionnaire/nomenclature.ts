@@ -1,5 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useApiClient } from "ui/api/context";
+import {NomenclatureSyncError} from "../../SyncError";
 
 export const useGetNomenclatures = (
   nomenclatureIds: string[]
@@ -8,7 +9,9 @@ export const useGetNomenclatures = (
   return useQueries({
     queries: nomenclatureIds.map((id) => ({
       queryKey: ["nomenclature", id],
-      queryFn: () => getNomenclature(id),
+      queryFn: () => getNomenclature(id).catch(error => {
+        throw new NomenclatureSyncError(error, id)
+      }),
     })),
   });
 };
