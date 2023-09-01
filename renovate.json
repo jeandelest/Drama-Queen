@@ -1,23 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
-  "labels": ["dependencies"],
   "packageRules": [
     {
       "matchFileNames": ["queen/**"],
-      "labels": ["queen"]
+      "labels": ["queen","dependencies"]
     },
     {
       "matchFileNames": ["queen-v2/**"],
-      "labels": ["queen-v2"]
+      "labels": ["queen-v2","dependencies"]
     },
     {
       "matchFileNames": ["drama-queen/**"],
-      "labels": ["drama-queen"]
+      "labels": ["drama-queen","dependencies"]
     },
     {
       "matchFileNames": ["package.json"],
-      "labels": ["drama-queen-container"]
+      "labels": ["drama-queen-container","dependencies"]
     }
   ]
 }
