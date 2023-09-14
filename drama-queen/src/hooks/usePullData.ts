@@ -1,20 +1,20 @@
-import {useGetCampaigns} from "hooks/queries/api/campaign";
-import {useGetSurveyUnitsGroupedByCampaign} from "hooks/queries/api/surveyUnit";
-import {useGetQuestionnaires} from "hooks/queries/api/questionnaire";
-import {useGetNomenclatures} from "hooks/queries/api/questionnaire/nomenclature";
-import {type UseQueryResult} from "@tanstack/react-query";
-import {SyncError} from "./queries/SyncError";
-import {useEffect} from "react";
-import {useRefSync} from "./useRefSync";
+import { useGetCampaigns } from "hooks/queries/api/campaign";
+import { useGetSurveyUnitsGroupedByCampaign } from "hooks/queries/api/surveyUnit";
+import { useGetQuestionnaires } from "hooks/queries/api/questionnaire";
+import { useGetNomenclatures } from "hooks/queries/api/questionnaire/nomenclature";
+import { type UseQueryResult } from "@tanstack/react-query";
+import { SyncError } from "./queries/SyncError";
+import { useEffect } from "react";
+import { useRefSync } from "./tools/useRefSync";
 
 type Args = {
-  onEnd: (data: PullData, errors: SyncError[]) => void
-}
+  onEnd: (data: PullData, errors: SyncError[]) => void;
+};
 
 /**
  * Pull data from the server
  */
-export const usePullData = ({onEnd}: Args) => {
+export const usePullData = ({ onEnd }: Args) => {
   const { data: campaigns } = useGetCampaigns();
 
   const campaignsIds = campaigns?.map(({ id }) => id) ?? [];
@@ -42,16 +42,23 @@ export const usePullData = ({onEnd}: Args) => {
   const surveyUnits = getQueriesData(surveyUnitsQueries).flat(1);
   const questionnaires = getQueriesData(questionnairesQueries);
   const nomenclatures = getQueriesData(nomenclatureQueries);
-  const status = getGlobalStatus(allQueries)
-  const data = useRefSync({ campaigns, surveyUnits, questionnaires, nomenclatures })
-  const errors = useRefSync(allQueries
+  const status = getGlobalStatus(allQueries);
+  const data = useRefSync({
+    campaigns,
+    surveyUnits,
+    questionnaires,
+    nomenclatures,
+  });
+  const errors = useRefSync(
+    allQueries
       .filter((q) => q.status === "error")
-      .map((q) => q.error) as SyncError[])
-  const onEndCb = useRefSync(onEnd)
+      .map((q) => q.error) as SyncError[]
+  );
+  const onEndCb = useRefSync(onEnd);
 
   useEffect(() => {
-    if (status === 'finished') {
-      onEndCb.current(data.current, errors.current)
+    if (status === "finished") {
+      onEndCb.current(data.current, errors.current);
     }
   }, [status]);
 
@@ -67,8 +74,7 @@ export const usePullData = ({onEnd}: Args) => {
   };
 };
 
-export type PullData = ReturnType<typeof usePullData>["data"]
-
+export type PullData = ReturnType<typeof usePullData>["data"];
 
 /**
  * Compute the status of the synchronization

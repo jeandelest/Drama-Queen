@@ -4,7 +4,7 @@ import { createApiClient } from "core/queenApi/createApiClient";
 import { createMockApiClient } from "core/queenApi/createMockApiClient";
 import { ReactNode, createContext, useContext, useMemo, useRef } from "react";
 import { useOidc } from "ui/auth";
-import { useGuaranteedMemo } from "ui/tools/useGuaranteedMemo";
+import { useGuaranteedMemo } from "hooks/tools/useGuaranteedMemo";
 
 const context = createContext<QueenApi | undefined>(undefined);
 
