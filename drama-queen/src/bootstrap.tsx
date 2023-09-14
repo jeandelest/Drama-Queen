@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { initializeCore } from "core"
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { type RoutingStrategy, createRouter } from "ui/routing/createRouter";
@@ -6,6 +8,7 @@ import { injectLegacyEntryQueens } from "core/injectLegacyQueens";
 import { createAuthProvider } from "ui/auth";
 import { createQueenApiProvider } from "ui/queenApi";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { LoadingData } from "ui/pages/LoadingData";
 
 const queryClient = new QueryClient({});
 
@@ -19,6 +22,16 @@ const { AuthProvider } = createAuthProvider({
 
 const { QueenApiProvider } = createQueenApiProvider({
   apiUrl: import.meta.env.VITE_QUEEN_API_URL
+});
+
+const { CoreLoadingFallback } = initializeCore({
+  "apiUrl": import.meta.env.VITE_API_URL,
+  "keycloakParams": {
+    "url": import.meta.env.VITE_KEYCLOAK_URL,
+    "clientId": import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+    "realm": import.meta.env.VITE_KEYCLOAK_REALM,
+    "origin": window.location.origin + import.meta.env.BASE_URL
+  }
 });
 
 const mount = ({
@@ -37,6 +50,7 @@ const mount = ({
   const router = createRouter({ strategy: routingStrategy, initialPathname });
   const root = createRoot(mountPoint);
   root.render(
+    /*
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <QueenApiProvider>
@@ -45,9 +59,15 @@ const mount = ({
       </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
+    */
+    <CoreLoadingFallback fallback={<h1>Loading</h1>} >
+      <LoadingData />
+    </CoreLoadingFallback>
   );
 
   return () => queueMicrotask(() => root.unmount());
 };
+
+
 
 export { mount };

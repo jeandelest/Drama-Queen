@@ -7263,6 +7263,15 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
+evt@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/evt/-/evt-2.5.2.tgz#fe2c86657de488fd873195daae35323b96daefb2"
+  integrity sha512-N8+A+VJRMPDIOz7KDctin7JSMPIvS1edLSDSgH51OGN6MGlAdthZ6pSztRBe1dxvNb0CvlzLKu9kRK2zYiWukw==
+  dependencies:
+    minimal-polyfills "^2.2.3"
+    run-exclusive "^2.2.19"
+    tsafe "^1.6.4"
+
 exec-sh@^0.3.2:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.3.6.tgz#ff264f9e325519a60cb5e273692943483cca63bc"
@@ -11235,6 +11244,11 @@ mini-css-extract-plugin@0.11.3:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
+minimal-polyfills@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/minimal-polyfills/-/minimal-polyfills-2.2.3.tgz#22af58de16807b325f29b83ca38ffb83e75ec3f4"
+  integrity sha512-oxdmJ9cL+xV72h0xYxp4tP2d5/fTBpP45H8DIOn9pASuF8a3IYTf+25fMGDYGiWW+MFsuog6KD6nfmhZJQ+uUw==
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
@@ -14567,6 +14581,13 @@ run-async@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
   integrity sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==
+
+run-exclusive@^2.2.19:
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.19.tgz#37a2fb6e3671f8ae0d63521ebd1865fc796cf307"
+  integrity sha512-K3mdoAi7tjJ/qT7Flj90L7QyPozwUaAG+CVhkdDje4HLKXUYC3N/Jzkau3flHVDLQVhiHBtcimVodMjN9egYbA==
+  dependencies:
+    minimal-polyfills "^2.2.3"
 
 run-parallel@^1.1.9:
   version "1.2.0"
