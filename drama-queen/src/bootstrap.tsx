@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { initializeCore } from "core"
+import { createCoreProvider } from "core";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { type RoutingStrategy, createRouter } from "ui/routing/createRouter";
@@ -24,14 +24,15 @@ const { QueenApiProvider } = createQueenApiProvider({
   apiUrl: import.meta.env.VITE_QUEEN_API_URL
 });
 
-const { CoreLoadingFallback } = initializeCore({
+const { CoreProvider } = createCoreProvider({
   "apiUrl": import.meta.env.VITE_API_URL,
   "keycloakParams": {
     "url": import.meta.env.VITE_KEYCLOAK_URL,
     "clientId": import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
     "realm": import.meta.env.VITE_KEYCLOAK_REALM,
     "origin": window.location.origin + import.meta.env.BASE_URL
-  }
+  },
+  "redirectUrl": import.meta.env.VITE_REDIRECT_URL,
 });
 
 const mount = ({
@@ -60,9 +61,9 @@ const mount = ({
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     */
-    <CoreLoadingFallback fallback={<h1>Loading</h1>} >
+    <CoreProvider fallback={<h1>Loading</h1>} >
       <LoadingData />
-    </CoreLoadingFallback>
+    </CoreProvider>
   );
 
   return () => queueMicrotask(() => root.unmount());

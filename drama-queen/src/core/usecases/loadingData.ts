@@ -1,9 +1,10 @@
+import type { Thunks, CreateEvt } from "../setup";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { State as RootState } from "../setup";
 import { id } from "tsafe/id";
-import { createEventEmitter, NonPostable } from "../tools/EventEmitter";
-import type { QueenApi } from "../queenApi/QueenApi";
-import type { Oidc } from "../keycloakClient/Oidc";
-import { assert } from "tsafe/assert";
-
+import { createSelector } from "@reduxjs/toolkit";
+import { Evt } from "evt";
 
 export type State = State.NotRunning | State.Running;
 
@@ -17,99 +18,161 @@ export namespace State {
         nomenclatureProgress: number;
         surveyProgress: number;
     };
+
 }
 
-export const state: State = id<State.NotRunning>({
-    "stateDescription": "not running"
+export const name = "loadingData";
+
+export const { reducer, actions } = createSlice({
+    name,
+    "initialState": id<State>({
+        "stateDescription": "not running"
+    }),
+    "reducers": {
+        "progressUpdated": (state, { payload }: PayloadAction<{
+            surveyUnitProgress: number;
+            nomenclatureProgress: number;
+            surveyProgress: number;
+        }>) => {
+            const { 
+                nomenclatureProgress,
+                surveyProgress,
+                surveyUnitProgress
+            } = payload;
+
+            return {
+                "stateDescription": "running",
+                nomenclatureProgress,
+                surveyProgress,
+                surveyUnitProgress
+            };
+        },
+        "completed": (state, { payload }: PayloadAction<{
+            redirectUrl: string;
+        }>) => {
+            return { "stateDescription": "not running" }
+        },
+    }
 });
 
-const $stateUpdated_internal = createEventEmitter<void>();
+export const thunks = {
+    "start":
+        () =>
+            async (...args) => {
+                const [dispatch, getState, { coreParams }] = args;
 
-export const $stateUpdated: NonPostable<void> = $stateUpdated_internal;
+                {
+                    const state = getState()[name];
 
-const reducers = {
-    "updateProgresses": (params: {
-        surveyUnitProgress: number;
-        nomenclatureProgress: number;
-        surveyProgress: number;
-    }) => {
+                    if (state.stateDescription === "running") {
+                        return;
+                    }
 
-        const { nomenclatureProgress, surveyProgress, surveyUnitProgress } = params;
+                }
 
-        Object.assign(state, id<State.Running>({
-            "stateDescription": "running",
-            surveyUnitProgress,
-            nomenclatureProgress,
-            surveyProgress
-        }));
-        $stateUpdated_internal.post();
+                dispatch(
+                    actions.progressUpdated({
+                        "nomenclatureProgress": 0,
+                        "surveyProgress": 0,
+                        "surveyUnitProgress": 0
+                    })
+                );
 
-    }
-}
+                for (const progress of [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]) {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-export const functions = {
-    "start": async () => {
+                    dispatch(
+                        actions.progressUpdated({
+                            "nomenclatureProgress": progress,
+                            "surveyProgress": progress,
+                            "surveyUnitProgress": progress
+                        })
+                    );
 
-        if (id<State>(state).stateDescription === "running") {
-            return;
+                }
+
+                dispatch(
+                    actions.completed({
+                        "redirectUrl": coreParams.redirectUrl
+                    })
+                );                                                                                                                      
+
+            }
+} satisfies Thunks;
+
+export const selectors = (() => {
+    const runningState = (rootState: RootState) => {
+        const state = rootState[name];
+
+        if (state.stateDescription === "not running") {
+            return undefined;
         }
+        return state;
 
-        const context = getContext();
-
-        reducers.updateProgresses({
-            "nomenclatureProgress": 0,
-            "surveyProgress": 0,
-            "surveyUnitProgress": 0
-        });
-
-        for (const progress of [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-
-            reducers.updateProgresses({
-                "nomenclatureProgress": progress,
-                "surveyProgress": progress,
-                "surveyUnitProgress": progress
-            });
-        }
-
-        $action.post({
-            "action": "redirect",
-            "url": window.document.location.origin
-        });
-
-    }
-}
-
-const { getContext, setContext } = (() => {
-
-    type Context = {
-        queenApi: QueenApi;
-        oidc: Oidc;
     };
 
-    let context: Context | undefined = undefined;
+    const isRunning = createSelector(
+        runningState,
+        state => state !== undefined
+    );
 
-    function getContext() {
-        assert(context !== undefined, "not initialized");
-        return context;
-    }
+    const surveyUnitProgress = createSelector(
+        runningState,
+        state => {
+            if (state === undefined) {
+                return undefined;
+            }
+            return state.surveyUnitProgress;
+        }
+    );
 
-    function setContext(context_: Context) {
-        context = context_;
-    }
+    const nomenclatureProgress = createSelector(
+        runningState,
+        state => {
+            if (state === undefined) {
+                return undefined;
+            }
+            return state.nomenclatureProgress;
+        }
+    );
+
+    const surveyProgress = createSelector(
+        runningState,
+        state => {
+            if (state === undefined) {
+                return undefined;
+            }
+            return state.surveyProgress;
+        }
+    );
 
     return {
-        getContext,
-        setContext
+        isRunning,
+        surveyUnitProgress,
+        nomenclatureProgress,
+        surveyProgress
     };
+
 })();
 
-export { setContext };
 
+export const createEvt = (({ evtAction }) =>{
 
-export const $action = createEventEmitter<{
-    action: "redirect";
-    url: string;
-}>();
+    const evt = Evt.create<{
+        action: "redirect";
+        url: string;
+    }>();
 
+    evtAction
+        .pipe(data => data.sliceName === name && data.actionName === "completed" ? [data.payload.redirectUrl] : null)
+        .attach((redirectUrl) => {
 
+            evt.post({
+                "action": "redirect",
+                "url": redirectUrl
+            });
+        });
+
+    return evt;
+
+}) satisfies CreateEvt;
