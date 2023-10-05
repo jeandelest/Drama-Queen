@@ -20,7 +20,7 @@ function noDataChange() {
 }
 
 const preferences = ['COLLECTED'];
-const features = ['VTL'];
+const features = ['VTL', 'MD'];
 // const savingType = 'COLLECTED';
 
 const missingShortcut = { dontKnow: 'f2', refused: 'f4' };
