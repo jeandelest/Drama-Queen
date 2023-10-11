@@ -1,15 +1,14 @@
 import D from 'i18n';
-import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
 import { useState } from 'react';
-import { useAPI, useAsyncValue } from 'utils/hook';
 import { getPercent } from 'utils';
+import { useAPI, useAsyncValue } from 'utils/hook';
 import {
   usePutResourcesInCache,
   useSaveSUsToLocalDataBase,
   useSendSurveyUnits,
 } from 'utils/hook/synchronize';
 import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
-import { useSendParadatas } from 'utils/hook/synchronize/paradata';
+import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
 
 const clean = async () => {
   await clearAllTables();
@@ -38,7 +37,7 @@ export const useSynchronisation = () => {
   const [current, setCurrent] = useState(null);
 
   const sendData = useSendSurveyUnits(setSendingProgress);
-  const sendParadata = useSendParadatas(setSendingParadatasProgress);
+  // const sendParadata = useSendParadatas(setSendingParadatasProgress);
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
@@ -68,7 +67,7 @@ export const useSynchronisation = () => {
       setWaitingMessage(D.waitingSendingData);
       setCurrent('send');
       surveyUnitsInTempZone = await sendData();
-      paradataInError = await sendParadata();
+      // paradataInError = await sendParadata();
     } catch (e) {
       return { error: 'send' };
     }
