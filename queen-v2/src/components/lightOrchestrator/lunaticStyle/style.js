@@ -10,17 +10,8 @@ const borderInput = '1px solid #767676';
 
 export const useCustomLunaticStyles = makeStyles(theme => ({
   lunatic: {
-    width: '80%',
-    marginLeft: '100px',
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '3em',
-    overflow: 'auto',
-    marginRight: 'auto',
-    flexGrow: 1,
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 'auto',
-    },
 
     /* Remove arrow for input number */
     /* Chrome, Safari, Edge, Opera */
@@ -30,16 +21,21 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     },
     /* Firefox */
     '& input[type=text]': {
+      MozAppearance: 'textfield',
+      marginLeft: '1em',
+      padding: '0.375rem 0 0.375rem 0.4375rem',
       minWidth: '40%',
       borderRadius: '10px',
       border: '1px solid black',
+      backgroundColor: 'white',
     },
     '& input[type=number]': {
       MozAppearance: 'textfield',
       marginLeft: '1em',
-      height: '2em',
+      padding: '0.375rem 0 0.375rem 0.4375rem',
       borderRadius: '10px',
       border: '1px solid black',
+      backgroundColor: 'white',
     },
 
     // to replace checkbox by svg
@@ -265,6 +261,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     // lunatic label
     '& .lunatic-input , .lunatic-textarea, .lunatic-input-number': {
       '& .lunatic-label': {
+        backgroundColor: 'transparent',
+        fontSize: '1em',
+        color: 'black',
         display: 'block',
         marginBottom: '1em',
         fontWeight: 'bold',
