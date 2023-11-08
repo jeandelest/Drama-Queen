@@ -1644,10 +1644,10 @@
     remove-accents "^0.4.2"
     sass "^1.32.2"
 
-"@inseefr/lunatic@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.6.1.tgz#00f71d1356fdc9e5807c6734dd8e02ceb61dc583"
-  integrity sha512-VT9nvz4tdcdg/CgD40srtBQfPmJtrvsh5v96xBDLrNR6pK4UGGFGBkp1mPbq8Y6ulNGcwiGSUCitXz0WvTBSlQ==
+"@inseefr/lunatic@^2.7.4":
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.7.4.tgz#1effadafd95d9333f73a84a3a0da0ac6b2c192c2"
+  integrity sha512-82+PRRChVK3DeyrhAVBCTYxVi9jTmqUbelWnfjHu4ktDqeRPk6Wm6LubcF3nn29Kzw46Vf7RsVmwi1RDj0+I6A==
   dependencies:
     "@inseefr/trevas" "^0.1.20"
     "@inseefr/vtl-2.0-antlr-tools" "^0.1.0-bundle"
@@ -14062,6 +14062,13 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-error-boundary@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-4.0.11.tgz#36bf44de7746714725a814630282fee83a7c9a1c"
+  integrity sha512-U13ul67aP5DOSPNSCWQ/eO0AQEYzEFkVljULQIjMV0KlffTAhxuDoBKdO0pb/JZ8mDhMKFZ9NZi0BmLGUiNphw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 react-error-overlay@^6.0.9:
   version "6.0.11"
