@@ -9,6 +9,27 @@ import {
   COMP_TYPE_TEXTAREA,
 } from 'utils/constants';
 
+export const extractComponentFromTableLine = line => {
+  if (Array.isArray(line))
+    return line.reduce((result, cell) => {
+      if (typeof cell === 'object' && 'componentType' in cell) return [...result, cell];
+      return result;
+    }, []);
+  return [];
+};
+
+export const extractComponentFromTable = component => {
+  const { componentType } = component;
+  if (COMP_TYPE_TABLE !== componentType) return [component];
+  const { body } = component;
+  if (Array.isArray(body)) {
+    return body.reduce((result, line) => {
+      return [...result, ...extractComponentFromTableLine(line)];
+    }, []);
+  }
+  return [];
+};
+
 export const componentHasResponse = component => {
   if (component === undefined) return false;
 
@@ -17,9 +38,12 @@ export const componentHasResponse = component => {
 
   const { componentType } = component;
   switch (componentType) {
-    case COMP_TYPE_CHECK_BOX_GROUP:
     case COMP_TYPE_TABLE:
-      return Object.values(component.value).some(val => val !== null);
+      const tableComponents = extractComponentFromTable(component);
+      return tableComponents.reduce((result, comp) => {
+        return componentHasResponse(comp) || result;
+      }, false);
+    case COMP_TYPE_CHECK_BOX_GROUP:
     case COMP_TYPE_INPUT_NUMBER:
     case COMP_TYPE_CHECK_BOX_BOOLEAN:
     case COMP_TYPE_TEXTAREA:
