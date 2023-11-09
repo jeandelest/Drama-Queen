@@ -30,6 +30,9 @@ export const extractComponentFromTable = component => {
   return [];
 };
 
+/**
+ * TODO: remove this code when this issue of Lunatic will be treated : https://github.com/InseeFr/Lunatic/issues/771
+ */
 export const componentHasResponse = component => {
   if (component === undefined) return false;
 
