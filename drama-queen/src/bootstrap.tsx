@@ -1,8 +1,18 @@
 import { createRoot } from "react-dom/client";
 import { type RoutingStrategy, createRouter } from "ui/routing/createRouter";
 import { injectLegacyEntryQueens } from "core/injectLegacyQueens";
-import App from "App";
+import CircularProgress from "@mui/material/CircularProgress"
+import { createCoreProvider } from "core";
+import { RouterProvider } from "react-router-dom";
 
+const { CoreProvider } = createCoreProvider({
+  "apiUrl": import.meta.env.VITE_API_URL,
+  "publicUrl": import.meta.env.BASE_URL,
+  "oidcParams": {
+    "issuerUri": import.meta.env.VITE_OIDC_ISSUER,
+    "clientId": import.meta.env.VITE_OIDC_CLIENT_ID,
+  },
+});
 
 const mount = ({
   mountPoint,
@@ -20,8 +30,9 @@ const mount = ({
   const router = createRouter({ strategy: routingStrategy, initialPathname });
   const root = createRoot(mountPoint);
   root.render(
-    <App />
-  );
+    <CoreProvider fallback={<CircularProgress />} >
+      <RouterProvider router={router} />
+    </CoreProvider>);
 
   return () => queueMicrotask(() => root.unmount());
 };

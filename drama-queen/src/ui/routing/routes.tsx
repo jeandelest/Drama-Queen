@@ -5,6 +5,7 @@ import type { RouteObject } from "react-router-dom";
 import { SynchronizePage } from "ui/pages/synchronize/SynchronizePage";
 import { SurveyMapping } from "ui/pages/queenMapping/SuryveyMapping";
 import { RequiresAuthentication } from "ui/auth";
+import { LoadingData } from "ui/pages/LoadingData";
 
 //ReadOnly path is a bad pattern must be change (affects pearl,moog,queen)
 export const routes: RouteObject[] = [
@@ -25,7 +26,11 @@ export const routes: RouteObject[] = [
     element: <VisualisationMapping />
   },
   {
-    path: "/synchronize",
+    path: "/synchronize-old",
     element: <RequiresAuthentication><SynchronizePage /></RequiresAuthentication>
+  },
+  {
+    path: "/synchronize",
+    element: <RequiresAuthentication><LoadingData /></RequiresAuthentication>
   }
 ]
