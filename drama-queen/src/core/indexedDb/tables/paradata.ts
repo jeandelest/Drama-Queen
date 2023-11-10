@@ -1,4 +1,4 @@
-import type { Paradata } from "core/model/paradata";
+import type { Paradata } from "core/ports/QueenApi/Paradata";
 import type { Table } from "dexie";
 
 export type ParadataTable = {

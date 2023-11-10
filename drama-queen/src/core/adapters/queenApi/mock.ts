@@ -1,7 +1,7 @@
-import type { QueenApi } from "./QueenApi";
+import type { QueenApi } from "core/ports/QueenApi/QueenApi";
 import { surveySample } from "./mockData/surveySample";
 
-export function createMockApiClient() {
+export function createApiClient(): QueenApi {
   return {
     getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: (_idCampaign) =>
       Promise.resolve([{ id: "id", questionnaireId: "questionnaireId" }]),
@@ -25,7 +25,7 @@ export function createMockApiClient() {
     getNomenclature: (idNomenclature) =>
       Promise.resolve([{ id: `${idNomenclature}`, label: "label" }]),
     postParadata: (paradata) => console.log("postParadata", paradata),
-  } satisfies QueenApi;
+  };
 }
 
 function createSUMocked(props: { idSu?: string; idCampaign?: string }) {

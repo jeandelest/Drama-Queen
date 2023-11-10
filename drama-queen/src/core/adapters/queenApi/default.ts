@@ -3,25 +3,25 @@ import {
   IdAndQuestionnaireIdSchema,
   SurveyUnitSchema,
   type SurveyUnitWithId,
-} from "core/model/surveyUnit";
+} from "core/ports/QueenApi/SurveyUnit";
 import axios from "axios";
 import memoize from "memoizee";
-import type { SurveyUnitData } from "core/model/surveyUnitData";
-import type { QueenApi } from "./QueenApi";
-import { type Campaign, CampaignSchema } from "core/model/campaing";
-import { type APIReturnedListOfSurvey } from "core/model/survey";
+import type { SurveyUnitData } from "core/ports/QueenApi/SurveyUnitData";
+import type { QueenApi } from "core/ports/QueenApi/QueenApi";
+import { type Campaign, CampaignSchema } from "core/ports/QueenApi/Campaing";
+import { type APIReturnedListOfSurvey } from "core/ports/QueenApi/Questionnaire";
 import {
   type Nomenclature,
   NomenclatureSchema,
   type RequiredNomenclatures,
   RequiredNomenclaturesSchema,
-} from "core/model/nomenclature";
-import type { Paradata } from "core/model/paradata";
+} from "core/ports/QueenApi/Nomenclature";
+import type { Paradata } from "core/ports/QueenApi/Paradata";
 
 export function createApiClient(params: {
   apiUrl: string;
-  getAccessToken: () => string | null;
-}) {
+  getAccessToken: () => string | undefined;
+}): QueenApi {
   const { apiUrl, getAccessToken } = params;
 
   const { axiosInstance } = (() => {
@@ -121,5 +121,5 @@ export function createApiClient(params: {
     ),
     postParadata: (paradata) =>
       axiosInstance.post<Paradata>(`/api/paradata`, paradata),
-  } satisfies QueenApi;
+  };
 }

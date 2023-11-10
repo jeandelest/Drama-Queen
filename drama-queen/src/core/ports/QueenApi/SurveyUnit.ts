@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SurveyUnitDataSchema } from "./surveyUnitData";
+import { SurveyUnitDataSchema } from "./SurveyUnitData";
 
 export const IdAndQuestionnaireIdSchema = z.object({
   id: z.string(),

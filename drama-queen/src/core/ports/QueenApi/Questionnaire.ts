@@ -1,6 +1,6 @@
-//import type { LunaticSource } from "@inseefr/lunatic/lib/src/use-lunatic/type-source";
 
-import { LunaticSource } from "./type-source";
+import { LunaticSource } from "@inseefr/lunatic";
+
 
 /**
  * We dont provide zod schema for this type because Survey are very large
@@ -10,6 +10,6 @@ export type Questionnaire = LunaticSource;
 
 /**
  * Utility type because API does not return Survey directly
- * Cause by /api/campaign/
+ * Caused by /api/campaign/
  */
 export type APIReturnedListOfSurvey = { value: LunaticSource };

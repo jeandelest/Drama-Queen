@@ -1,10 +1,6 @@
-import { Oidc } from "core/keycloakClient/Oidc";
-import { QueenApi } from "core/queenApi/QueenApi";
-import { createApiClient } from "core/queenApi/createApiClient";
-import { createMockApiClient } from "core/queenApi/createMockApiClient";
 import { ReactNode, createContext, useContext, useMemo, useRef } from "react";
-import { useOidc } from "ui/auth";
 import { useGuaranteedMemo } from "hooks/tools/useGuaranteedMemo";
+import { QueenApi } from "core/ports/QueenApi/QueenApi";
 
 const context = createContext<QueenApi | undefined>(undefined);
 
@@ -28,17 +24,7 @@ export function createQueenApiProvider(
   }) {
     const { children } = props;
 
-    const oidc = useOidc()
-
-    const apiClient = useGuaranteedMemo(() =>
-      apiUrl
-        ? createApiClient({
-          apiUrl: apiUrl,
-          getAccessToken: () => oidc.isUserLoggedIn ? oidc.getAccessToken() : null
-        })
-        : createMockApiClient(),
-      []
-    );
+    const apiClient = undefined;
 
     return <context.Provider value={apiClient}>{children}</context.Provider>;
   }

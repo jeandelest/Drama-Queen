@@ -24,6 +24,7 @@
     "jwt-decode": "^3.1.2",
     "keycloak-js": "^21.1.2",
     "memoizee": "^0.4.15",
+    "oidc-spa": "^2.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1",
@@ -33,7 +34,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@inseefr/lunatic": "^2.4.10",
+    "@inseefr/lunatic": "^2.7.4",
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",

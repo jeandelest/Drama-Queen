@@ -1,4 +1,4 @@
-import type { SurveyUnitWithId } from "core/model/surveyUnit";
+import type { SurveyUnitWithId } from "core/ports/QueenApi/SurveyUnit";
 import type { Table } from "dexie";
 
 export type SurveyUnitTable = {

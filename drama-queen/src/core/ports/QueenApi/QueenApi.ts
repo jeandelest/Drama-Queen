@@ -1,14 +1,14 @@
-import type { Campaign } from "core/model/campaing";
+import type { Campaign } from "core/ports/QueenApi/Campaing";
 import type {
   Nomenclature,
   RequiredNomenclatures,
-} from "core/model/nomenclature";
-import type { Paradata } from "core/model/paradata";
-import type { Questionnaire } from "core/model/survey";
+} from "core/ports/QueenApi/Nomenclature";
+import type { Paradata } from "core/ports/QueenApi/Paradata";
+import type { Questionnaire } from "core/ports/QueenApi/Questionnaire";
 import type {
   IdAndQuestionnaireId,
   SurveyUnitWithId,
-} from "core/model/surveyUnit";
+} from "core/ports/QueenApi/SurveyUnit";
 
 export type QueenApi = {
   getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: (

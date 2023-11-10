@@ -1,21 +1,11 @@
-import { useEffect, useReducer } from "react";
-import * as loadingData from "core/usecases/loadingData";
+import { useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress"
 import LinearProgress from '@mui/material/LinearProgress';
-import { selectors, useCoreState, useCoreFunctions, useCoreEvts } from "core";
-import { assert } from "tsafe/assert"
+import { useCoreState, useCoreFunctions, useCoreEvts } from "core";
 import { useEvt } from "evt/hooks"
 
 export function LoadingData() {
-
-    /*
-    const { isRunning } = useCoreState(selectors.loadingData.isRunning);
-    const { nomenclatureProgress } = useCoreState(selectors.loadingData.nomenclatureProgress);
-    const { surveyProgress } = useCoreState(selectors.loadingData.surveyProgress);
-    const { surveyUnitProgress } = useCoreState(selectors.loadingData.surveyUnitProgress);
-    */
-
-    const loadingDataState = useCoreState(state=> state.loadingData);
+    const loadingDataState = useCoreState(state => state.loadingData);
 
     const { loadingData } = useCoreFunctions();
 
@@ -29,31 +19,19 @@ export function LoadingData() {
     const { evtLoadingData } = useCoreEvts();
 
     useEvt(
-        ctx=> {
-
+        ctx => {
             evtLoadingData.$attach(
-                data => data.action === "redirect" ? [data.url] : null,
+                data => data.action === "redirect" ? [data] : null,
                 ctx,
-                url => {
-                    alert("redirect to " + url)
+                () => {
+                    alert("redirect to " + window.location.href)
                 }
             );
-
         },
         []
     );
 
-    /*
-    if (!isRunning) {
-        return null;
-    }
-
-    assert(nomenclatureProgress !== undefined);
-    assert(surveyProgress !== undefined);
-    assert(surveyUnitProgress !== undefined);
-    */
-
-    if( loadingDataState.stateDescription !== "running"){
+    if (loadingDataState.stateDescription !== "running") {
         return null;
     }
 

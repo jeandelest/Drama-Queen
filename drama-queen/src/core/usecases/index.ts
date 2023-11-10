@@ -1,4 +1,3 @@
-
 import * as loadingData from "./loadingData";
-
-export const usecases = { loadingData };
+import * as userAuthentication from "./userAuthentication";
+export const usecases = { loadingData, userAuthentication };
