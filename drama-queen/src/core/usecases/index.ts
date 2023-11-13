@@ -1,3 +1,4 @@
-import * as loadingData from "./loadingData";
+
 import * as userAuthentication from "./userAuthentication";
-export const usecases = { loadingData, userAuthentication };
+import * as synchronizeData from "./synchronizeData";
+export const usecases = { synchronizeData, userAuthentication };

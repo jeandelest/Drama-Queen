@@ -5,22 +5,22 @@ import { useCoreState, useCoreFunctions, useCoreEvts } from "core";
 import { useEvt } from "evt/hooks"
 
 export function LoadingData() {
-    const loadingDataState = useCoreState(state => state.loadingData);
+    const synchronizeDataState = useCoreState(state => state.synchronizeData);
 
-    const { loadingData } = useCoreFunctions();
+    const { synchronizeData } = useCoreFunctions();
 
     useEffect(
         () => {
-            loadingData.start();
+            synchronizeData.start();
         },
         []
     );
 
-    const { evtLoadingData } = useCoreEvts();
+    const { evtSynchronizeData } = useCoreEvts();
 
     useEvt(
         ctx => {
-            evtLoadingData.$attach(
+            evtSynchronizeData.$attach(
                 data => data.action === "redirect" ? [data] : null,
                 ctx,
                 () => {
@@ -31,11 +31,11 @@ export function LoadingData() {
         []
     );
 
-    if (loadingDataState.stateDescription !== "running") {
+    if (synchronizeDataState.stateDescription !== "running") {
         return null;
     }
 
-    const { nomenclatureProgress, surveyProgress, surveyUnitProgress } = loadingDataState;
+    const { nomenclatureProgress, surveyProgress, surveyUnitProgress } = synchronizeDataState;
 
     return (
         <div>
