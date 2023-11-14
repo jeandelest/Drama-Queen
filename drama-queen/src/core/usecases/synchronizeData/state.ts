@@ -1,14 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { id } from "tsafe";
 
-export type State = State.NotRunning | State.Running;
+export type State = State.NotRunning | State.Uploading | State.Downloading;
 
 export namespace State {
   export type NotRunning = {
     stateDescription: "not running";
   };
-  export type Running = {
-    stateDescription: "running";
+
+  export type Uploading = {
+    stateDescription: "uploading";
+    uploadProgress: number;
+  };
+
+  export type Downloading = {
+    stateDescription: "downloading";
     surveyUnitProgress: number;
     nomenclatureProgress: number;
     surveyProgress: number;
@@ -25,7 +31,21 @@ export const { reducer, actions } = createSlice({
     })
   ),
   reducers: {
-    progressUpdated: (
+    progressUploading: (
+      _state,
+      {
+        payload,
+      }: PayloadAction<{
+        uploadProgress: number;
+      }>
+    ) => {
+      const { uploadProgress } = payload;
+      return {
+        stateDescription: "uploading",
+        uploadProgress,
+      };
+    },
+    progressDownloading: (
       _state,
       {
         payload,
@@ -39,7 +59,7 @@ export const { reducer, actions } = createSlice({
         payload;
 
       return {
-        stateDescription: "running",
+        stateDescription: "downloading",
         nomenclatureProgress,
         surveyProgress,
         surveyUnitProgress,

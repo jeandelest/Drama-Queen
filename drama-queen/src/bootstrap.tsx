@@ -6,7 +6,7 @@ import { createCoreProvider } from "core";
 import { RouterProvider } from "react-router-dom";
 
 const { CoreProvider } = createCoreProvider({
-  "apiUrl": import.meta.env.VITE_API_URL,
+  "apiUrl": import.meta.env.VITE_QUEEN_API_URL,
   "publicUrl": import.meta.env.BASE_URL,
   "oidcParams": {
     "issuerUri": import.meta.env.VITE_OIDC_ISSUER,

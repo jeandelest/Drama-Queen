@@ -4,39 +4,34 @@ import { createSelector } from "@reduxjs/toolkit";
 
 const state = (rootState: RootState) => rootState[name];
 
-const runningState = createSelector(state, (state) => {
-  if (state.stateDescription === "not running") {
-    return undefined;
-  }
-  return state;
-});
+const runningStates = ["downloading", "uploading"];
 
-const isRunning = createSelector(runningState, (state) => state !== undefined);
+const isRunning = createSelector(state, ({ stateDescription }) =>
+  runningStates.includes(stateDescription)
+);
 
-const surveyUnitProgress = createSelector(runningState, (state) => {
-  if (state === undefined) {
-    return undefined;
-  }
-  return state.surveyUnitProgress;
-});
+const surveyUnitProgress = createSelector(state, (state) =>
+  state.stateDescription === "downloading"
+    ? state.surveyUnitProgress
+    : undefined
+);
+const nomenclatureProgress = createSelector(state, (state) =>
+  state.stateDescription === "downloading"
+    ? state.nomenclatureProgress
+    : undefined
+);
+const surveyProgress = createSelector(state, (state) =>
+  state.stateDescription === "downloading" ? state.surveyProgress : undefined
+);
 
-const nomenclatureProgress = createSelector(runningState, (state) => {
-  if (state === undefined) {
-    return undefined;
-  }
-  return state.nomenclatureProgress;
-});
-
-const surveyProgress = createSelector(runningState, (state) => {
-  if (state === undefined) {
-    return undefined;
-  }
-  return state.surveyProgress;
-});
+const uploadProgress = createSelector(state, (state) =>
+  state.stateDescription === "uploading" ? state.uploadProgress : undefined
+);
 
 export const selectors = {
   isRunning,
   surveyUnitProgress,
   nomenclatureProgress,
   surveyProgress,
+  uploadProgress,
 };
