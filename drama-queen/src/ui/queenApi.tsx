@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useMemo, useRef } from "react";
 import { useGuaranteedMemo } from "hooks/tools/useGuaranteedMemo";
-import { QueenApi } from "core/ports/QueenApi/QueenApi";
+import { QueenApi } from "core/ports/QueenApi";
 
 const context = createContext<QueenApi | undefined>(undefined);
 

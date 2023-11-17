@@ -1,4 +1,4 @@
-import type { Questionnaire } from "core/ports/QueenApi/Questionnaire";
+import type { Questionnaire } from "core/model/Questionnaire";
 
 export const surveySample = {
   id: "lk9s32o5",

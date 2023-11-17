@@ -1,9 +1,8 @@
 import { Thunks } from "core/setup";
 import { actions, name, type State } from "./state";
-import type { Campaign } from "core/ports/QueenApi/Campaing";
 
 export const thunks = {
-  startDownloading:
+  start:
     () =>
     async (...args) => {
       const [dispatch, getState] = args;
@@ -11,16 +10,14 @@ export const thunks = {
       {
         const state = getState()[name];
 
-        if (state.stateDescription === "downloading") {
+        if (state.stateDescription === "running") {
           return;
         }
       }
 
       dispatch(
-        actions.progressDownloading({
-          nomenclatureProgress: 0,
-          surveyProgress: 0,
-          surveyUnitProgress: 0,
+        actions.progress({
+          uploadProgress: 0,
         })
       );
 
@@ -28,10 +25,8 @@ export const thunks = {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         dispatch(
-          actions.progressDownloading({
-            nomenclatureProgress: progress,
-            surveyProgress: progress,
-            surveyUnitProgress: progress,
+          actions.progress({
+            uploadProgress: progress,
           })
         );
       }

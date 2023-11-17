@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Questionnaire } from "core/ports/QueenApi/Questionnaire";
+import { Questionnaire } from "core/model/Questionnaire";
 
 const lunaticModelVersionBreaking = "2.2.10";
 

@@ -1,16 +1,23 @@
-import type { QueenApi } from "core/ports/QueenApi/QueenApi";
+import type { QueenApi } from "core/ports/QueenApi";
 import { surveySample } from "./mockData/surveySample";
 
 export function createApiClient(): QueenApi {
   return {
     getSurveyUnitsIdsAndQuestionnaireIdsByCampaign: (_idCampaign) =>
       Promise.resolve([{ id: "id", questionnaireId: "questionnaireId" }]),
-    getSurveyUnitsByCampaign: (_idCampaign) =>
-      Promise.reject("Not implemented"),
+    getSurveyUnits: () =>
+      Promise.resolve([
+        createSUMocked({}),
+        createSUMocked({ idCampaign: "camp2", idSu: "su2" }),
+      ]),
     getSurveyUnit: (idSurveyUnit) =>
       Promise.resolve(createSUMocked({ idSu: idSurveyUnit })),
     putSurveyUnit: (idSurveyUnit, surveyUnit) =>
       console.log("putSurveyUnit", `id: ${idSurveyUnit}`, surveyUnit),
+    putSurveyUnitsData: (surveyUnitsData) => {
+      console.log("putSurveyUnits");
+      console.table(surveyUnitsData);
+    },
     postSurveyUnitInTemp: (idSurveyUnit, surveyUnit) =>
       console.log("postSurveyUnitInTemp", `id: ${idSurveyUnit}`, surveyUnit),
     getCampaigns: () =>
@@ -29,7 +36,7 @@ export function createApiClient(): QueenApi {
 }
 
 function createSUMocked(props: { idSu?: string; idCampaign?: string }) {
-  const { idSu, idCampaign } = props;
+  const { idSu = "su1", idCampaign = "campaign1" } = props;
   return {
     id: `idSU:${idSu}`,
     questionnaireId: `idCampaign${idCampaign}`,

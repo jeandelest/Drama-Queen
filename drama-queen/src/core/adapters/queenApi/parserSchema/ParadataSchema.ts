@@ -20,5 +20,3 @@ export const ParadataSchema = z.object({
   idSu: z.string(),
   event: EventSchema.array(),
 });
-
-export type Paradata = z.infer<typeof ParadataSchema>;

@@ -1,15 +1,16 @@
 const texts = {
-    'sync.progress': 'Synchronisation en cours',
-    'sync.download': 'Téléchargement des données...',
-    'sync.surveyUnits': 'Unités enquêtées',
-    'sync.nomenclatures': 'Nomenclatures',
-    'sync.questionnaires': 'Questionnaires',
-} as const
+  "sync": "Synchronisation en cours",
+  "sync.download": "Téléchargement des données...",
+  "sync.download.surveyUnits": "Unités enquêtées",
+  "sync.download.nomenclatures": "Nomenclatures",
+  "sync.download.questionnaires": "Questionnaires",
+  "sync.upload": "Envoi des données",
+} as const;
 
-const getTranslation = (s: keyof typeof texts) => texts[s] ?? s
+const getTranslation = (s: keyof typeof texts) => texts[s] ?? s;
 
-export function useTranslate () {
-    return {
-        '__': getTranslation
-    }
+export function useTranslate() {
+  return {
+    __: getTranslation,
+  };
 }
