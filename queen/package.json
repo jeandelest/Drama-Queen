@@ -52,28 +52,13 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
       "react-app/jest",
       "prettier",
       "plugin:react-hooks/recommended",
       "plugin:jsx-a11y/recommended",
-      "plugin:import/warnings"
+      "plugin:import/warnings",
+      "plugin:react-hooks/recommended"
     ],
-    "plugins": [
-      "prettier",
-      "jsx-a11y"
-    ],
-    "rules": {
-      "react/prop-types": [
-        "off"
-      ],
-      "prettier/prettier": [
-        1,
-        {
-          "arrowParens": "avoid"
-        }
-      ]
-    },
     "globals": {
       "fetch": true,
       "window": true,
@@ -116,7 +101,6 @@
     "copy-and-watch": "^0.1.4",
     "cross-env": "^7.0.3",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
