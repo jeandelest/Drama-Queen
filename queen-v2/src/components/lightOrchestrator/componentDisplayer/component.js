@@ -1,11 +1,11 @@
-import * as lunatic from '@inseefr/lunatic';
+import { LunaticComponents } from '@inseefr/lunatic';
 
 import { useCustomLunaticStyles } from 'components/lightOrchestrator/lunaticStyle/style';
 
 export const ComponentDisplayer = ({ components, readonly, pageTag }) => {
   const lunaticClasses = useCustomLunaticStyles();
   return (
-    <lunatic.LunaticComponents
+    <LunaticComponents
       autoFocusKey={pageTag}
       components={components}
       componentProps={() => ({
