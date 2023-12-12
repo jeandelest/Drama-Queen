@@ -8,6 +8,10 @@ export const createRoutes = (queenVersion: 1 | 2 = 1): RouteObject[] => {
   const queenElement = queenVersion === 1 ? <queen-app /> : <queen-v2-app />;
   return [
     {
+      path: "/queen/gide/questionnaire/*",
+      element: <capmi-app></capmi-app>
+    },
+    {
       path: "queen/env",
       element: <EnvPage />
     },
