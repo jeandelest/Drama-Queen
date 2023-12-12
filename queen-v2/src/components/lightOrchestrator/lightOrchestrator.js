@@ -11,6 +11,7 @@ import Header from './header';
 import { useStyles } from './lightOrchestrator.style';
 import NavBar from './navBar';
 import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function noDataChange() {
   /**/
@@ -18,6 +19,7 @@ function noDataChange() {
 
 const preferences = ['COLLECTED'];
 const features = ['VTL', 'MD'];
+const custom = { RouterLink: Link };
 
 const missingShortcut = { dontKnow: 'f2', refused: 'f4' };
 
@@ -68,7 +70,7 @@ function LightOrchestrator({
   });
 
   lunaticStateRef.current = useLunatic(source, initialData, {
-    custom: { RouterLink: Link },
+    custom,
     lastReachedPage: lastReachedPage ?? '1',
     features,
     pagination,
