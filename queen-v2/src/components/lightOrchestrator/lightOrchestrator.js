@@ -11,7 +11,6 @@ import Header from './header';
 import { useStyles } from './lightOrchestrator.style';
 import NavBar from './navBar';
 import { Link } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 function noDataChange() {
   /**/
