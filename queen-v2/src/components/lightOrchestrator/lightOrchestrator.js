@@ -194,7 +194,8 @@ function LightOrchestrator({
         readonly={readonly}
         quit={memoQuit}
         definitiveQuit={memoDefinitiveQuit}
-        currentPage={page}
+        pageTag={pageTag}
+        pager={pager}
       />
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
