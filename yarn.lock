@@ -1983,13 +1983,13 @@
     remove-accents "^0.4.2"
     sass "^1.32.2"
 
-"@inseefr/lunatic@^2.7.9":
-  version "2.7.9"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.7.9.tgz#3731eadee414c11242a08bf6ed39afa97a35e810"
-  integrity sha512-rq/zPs9Q8hxHpIOzm0H+x61mVjIpOj2zZUFhy2o26Tsh1PTjLoAWSPwcEBZ0eYNfhkhL5iOqjGlzcpvymd1rpQ==
+"@inseefr/lunatic@^2.7.12":
+  version "2.7.12"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.7.12.tgz#0c491b31c50c2e9309e213ca2ab1f15755bfb6d9"
+  integrity sha512-xUojd6LCtPmByQl6B8sqrMZCIFZKbUAmsM5FAJTxrlJnBqjAmzhJM26ExsVfUVqrESt5XacNqafn0Dpb2eCaSA==
   dependencies:
     "@inseefr/trevas" "^0.1.20"
-    "@inseefr/vtl-2.0-antlr-tools" "^0.1.0-bundle"
+    "@inseefr/vtl-2.0-antlr-tools" "^0.1.0"
     antlr4 "4.11.0"
     classnames "^2.3.1"
     date-fns "^2.25.0"
@@ -2027,7 +2027,7 @@
     data-forge "^1.8.8"
     date-fns "^2.27.0"
 
-"@inseefr/vtl-2.0-antlr-tools@0.1.0", "@inseefr/vtl-2.0-antlr-tools@^0.1.0-bundle":
+"@inseefr/vtl-2.0-antlr-tools@0.1.0", "@inseefr/vtl-2.0-antlr-tools@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@inseefr/vtl-2.0-antlr-tools/-/vtl-2.0-antlr-tools-0.1.0.tgz#5c2d13621b4cab0a092b45d9edd64d8062f348d9"
   integrity sha512-VgNDBE9dqtPFnlk8nCcFD0/dEcuzlhUd5RWsf+dlRsbjSb2wZZhwL8BKCopfLWKLSkTdPyRaosIVL1neiOAB2A==
