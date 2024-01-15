@@ -42,4 +42,8 @@ export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
 export const MIN_LUNATIC_MODEL_VERSION = '2.2.3';
 export const MIN_ENO_CORE_VERSION = '2.2.11';
 
+export const EXTERNAL_RESOURCES_BASE_URL = window.localStorage.getItem('CAPMI_URL') || '';
+export const EXTERNAL_RESOURCES_CACHE_NAME = 'EXTERNAL_RESOURCES';
+export const CAMPAIGN_WITH_SOUND_KEYWORD = 'gide';
+
 export * from './paradata';
