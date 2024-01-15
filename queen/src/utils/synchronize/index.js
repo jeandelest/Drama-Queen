@@ -1,5 +1,6 @@
 import D from 'i18n';
 import { useState } from 'react';
+import { getPercent } from 'utils';
 import { useAPI, useAsyncValue } from 'utils/hook';
 import {
   areExternalResourcesNeeded,
@@ -119,6 +120,7 @@ export const useSynchronisation = () => {
         await getExternalResources(needExternalSpecialResources);
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
+      console.error(e);
       return { error: 'get', surveyUnitsInTempZone, questionnairesAccessible };
     }
 
