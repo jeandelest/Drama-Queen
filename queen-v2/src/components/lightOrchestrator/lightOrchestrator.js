@@ -1,7 +1,6 @@
 import { useLunatic } from '@inseefr/lunatic';
 import D from 'i18n';
 import { memo, useEffect, useMemo, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { isSequenceOrSubsequenceComponent } from 'utils/components/deduceState';
 import { QUEEN_URL } from 'utils/constants';
 import { useConstCallback } from 'utils/hook/useConstCallback';
@@ -17,9 +16,22 @@ function noDataChange() {
   /**/
 }
 
+/**
+ * Custom link to open Gide in the same tab, we do not use Link (from React Router) because of Orchestrator Manager redirect to NotFound Component
+ * This is a Workaround, the best choice is to use Link but that need refactor
+ */
+const CustomLink = props => {
+  const { to, children, ...rest } = props;
+  return (
+    <a href={`${window.location.origin}${to}`} {...rest}>
+      {children}
+    </a>
+  );
+};
+
 const preferences = ['COLLECTED'];
 const features = ['VTL', 'MD'];
-const custom = { RouterLink: Link };
+const custom = { RouterLink: CustomLink };
 
 const missingShortcut = { dontKnow: 'f2', refused: 'f4' };
 
