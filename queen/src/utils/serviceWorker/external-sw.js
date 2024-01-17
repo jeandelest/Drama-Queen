@@ -19,33 +19,8 @@ const getRequiredResourceUrlRegex = () =>
 
 const getResourceUrlRegex = () => '^http.*/api/nomenclature/(.){1,}';
 
-const getExternalResourceUrlRegex = url => {
-  return (
-    url
-      .replace('http', '^http')
-      // all special extension
-      .concat(
-        '/(.*)((.html)|(.js)|(.svg)|(.jpg)|(.mp4)|(.ttf)|(.woff)|(.woff2)|(.eot)|(.css)|(.png)|(.gif)|(.json))'
-      )
-  );
-};
-
 const queenCacheName = 'queen-cache';
-const EXTERNAL_RESOURCES_CACHE_NAME = 'EXTERNAL_RESOURCES';
 console.log('"Loading Queen SW into another SW"');
-
-// Cache for external resources
-registerRoute(
-  new RegExp(getExternalResourceUrlRegex(self._QUEEN_CAPMI_URL)),
-  new CacheFirst({
-    cacheName: EXTERNAL_RESOURCES_CACHE_NAME,
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-    ],
-  })
-);
 
 registerRoute(
   new RegExp(getQueenUrlRegexJson(self._QUEEN_URL)),
