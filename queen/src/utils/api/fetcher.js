@@ -7,8 +7,10 @@ const readJsonResponse = async response => {
   }
 };
 
-export const fetcher = async (url, token, method, body) => {
-  const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
+export const fetcher = async (url, token, method, body, withHeaders = true) => {
+  const headers = withHeaders
+    ? { Accept: 'application/json', 'Content-Type': 'application/json' }
+    : {};
   try {
     const response = await fetch(url, {
       headers: token ? { ...headers, Authorization: `Bearer ${token}` } : headers,

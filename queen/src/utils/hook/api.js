@@ -118,7 +118,7 @@ export const useAPI = () => {
   );
 
   const getSpecialResource = useCallback(resourceUrl => {
-    return API.getRequest(resourceUrl)(null);
+    return API.getRequestWithoutHeaders(resourceUrl)(null);
   }, []);
 
   return {
