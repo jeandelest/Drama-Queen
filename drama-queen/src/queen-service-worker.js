@@ -5,8 +5,7 @@ self._QUEEN_CAPMI_URL = import.meta.env.VITE_CAPMI_URL;
 
 importScripts(`${self._QUEEN_URL}/queen-service-worker.js`);
 importScripts(`${self._QUEEN_V2_URL}/queen-service-worker.js`);
-// The line above raise error in pearl ui (check why with insee)
-// importScripts(`${self._QUEEN_CAPMI_URL}/queen-service-worker.js`);
+importScripts(`${self._QUEEN_CAPMI_URL}/queen-service-worker.js`);
 
 const getDramaQueenUrlRegex = (url) => {
   return url
