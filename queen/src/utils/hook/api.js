@@ -1,13 +1,13 @@
 import { AppContext } from 'components/app';
 import Dictionary from 'i18n';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { API } from 'utils/api';
-import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
-import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
-import { useAuth } from './auth';
-import { useAsyncValue } from '.';
 import { getFetcherForLunatic } from 'utils/api/fetcher';
+import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { useAsyncValue } from '.';
+import { useAuth } from './auth';
 
 const clean = async (standalone = false) => {
   try {
@@ -117,6 +117,10 @@ export const useAPI = () => {
     [apiUrl, authenticationType, oidcUser]
   );
 
+  const getSpecialResource = useCallback(resourceUrl => {
+    return API.getRequestWithoutHeaders(resourceUrl)(null);
+  }, []);
+
   return {
     getCampaigns,
     getSurveyUnits,
@@ -127,6 +131,7 @@ export const useAPI = () => {
     putUeData,
     putUeDataToTempZone,
     postParadata,
+    getSpecialResource,
   };
 };
 

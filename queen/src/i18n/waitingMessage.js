@@ -52,6 +52,10 @@ const waitingMessage = {
     fr: 'Unités enquêtées',
     en: 'Survey units',
   },
+  waitingLoadingExternalResources: {
+    fr: 'Ressources sonores',
+    en: 'Sound resources',
+  },
 };
 
 export default waitingMessage;

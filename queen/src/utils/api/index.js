@@ -1,5 +1,6 @@
 import { fetcher } from './fetcher';
 
+const getRequestWithoutHeaders = url => token => fetcher(url, token, 'GET', null, false);
 const getRequest = url => token => fetcher(url, token, 'GET', null);
 const putRequest = url => token => body => fetcher(url, token, 'PUT', body);
 const postRequest = url => token => body => fetcher(url, token, 'POST', body);
@@ -33,6 +34,7 @@ const postParadata = apiUrl => token => body => postRequest(`${apiUrl}/api/parad
 const healthcheck = apiUrl => getRequest(`${apiUrl}/api/healthcheck`)(null);
 
 export const API = {
+  getRequestWithoutHeaders,
   getRequest,
   getSurveyUnits,
   getUeData,
