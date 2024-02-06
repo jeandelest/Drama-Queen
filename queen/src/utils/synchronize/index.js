@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { getPercent } from 'utils';
 import { useAPI, useAsyncValue } from 'utils/hook';
 import {
+  areExternalResourcesNeeded,
   usePutResourcesInCache,
   useSaveSUsToLocalDataBase,
   useSendSurveyUnits,
+  useSpecialResourcesInCache,
 } from 'utils/hook/synchronize';
 import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
 import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
@@ -34,6 +36,7 @@ export const useSynchronisation = () => {
   const [campaignProgress, setCampaignProgress] = useState(null);
   const [resourceProgress, setResourceProgress] = useState(0);
   const [surveyUnitProgress, setSurveyUnitProgress] = useState(0);
+  const [externalResourceProgress, setExternalResourceProgress] = useState(0);
   const [current, setCurrent] = useState(null);
 
   const sendData = useSendSurveyUnits(setSendingProgress);
@@ -41,6 +44,7 @@ export const useSynchronisation = () => {
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
+  const getExternalResources = useSpecialResourcesInCache(setExternalResourceProgress);
 
   const getAllCampaign = async campaign => {
     const { id, questionnaireIds } = campaign;
@@ -91,7 +95,10 @@ export const useSynchronisation = () => {
       let i = 0;
       setCampaignProgress(0);
 
+      const needExternalSpecialResources = areExternalResourcesNeeded(campaigns);
+
       if (!error) {
+        // (4.1) Get classic resource for campaign
         await (campaigns || []).reduce(async (previousPromise, campaign) => {
           await previousPromise;
           const loadCampaign = async () => {
@@ -106,8 +113,14 @@ export const useSynchronisation = () => {
           setCampaignProgress(getPercent(i, campaigns.length));
           return loadCampaign();
         }, Promise.resolve({}));
+
+        // (4.2) Get external special resources for campaign
+
+        if (needExternalSpecialResources) setCurrent('external');
+        await getExternalResources(needExternalSpecialResources);
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
+      console.error(e);
       return { error: 'get', surveyUnitsInTempZone, questionnairesAccessible };
     }
 
@@ -123,5 +136,6 @@ export const useSynchronisation = () => {
     campaignProgress,
     resourceProgress,
     surveyUnitProgress,
+    externalResourceProgress,
   };
 };

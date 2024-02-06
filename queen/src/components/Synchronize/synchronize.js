@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import D from 'i18n';
-import Preloader from 'components/shared/preloader';
-import { ProgressBar } from 'components/shared/ProgressBar';
+import { Box, Container, Typography, makeStyles } from '@material-ui/core';
 import { AppVersion, Button } from 'components/designSystem';
-import { Box, Container, makeStyles, Typography } from '@material-ui/core';
+import { ProgressBar } from 'components/shared/ProgressBar';
+import Preloader from 'components/shared/preloader';
+import D from 'i18n';
+import { useCallback, useEffect, useState } from 'react';
 import { QUEEN_SYNC_RESULT, SYNCHRONIZE_KEY } from 'utils/constants';
-import { useSynchronisation } from 'utils/synchronize';
-import { SimpleLabelProgress } from './SimpleLabelProgress';
-import { IconStatus } from './IconStatus';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { useSynchronisation } from 'utils/synchronize';
+import { IconStatus } from './IconStatus';
+import { SimpleLabelProgress } from './SimpleLabelProgress';
 
 const useStyles = makeStyles(theme => ({
   welcome: { textAlign: 'center', paddingTop: '3em' },
@@ -35,6 +35,7 @@ const Synchronize = () => {
     campaignProgress,
     resourceProgress,
     surveyUnitProgress,
+    externalResourceProgress,
   } = useSynchronisation();
 
   const [currentJob, setCurrentJob] = useState(null);
@@ -140,6 +141,13 @@ const Synchronize = () => {
                     label={D.waitingLoadingSU}
                     value={surveyUnitProgress}
                     current={current === 'survey-units'}
+                  />
+                )}
+                {!!externalResourceProgress && (
+                  <SimpleLabelProgress
+                    label={D.waitingLoadingExternalResources}
+                    value={externalResourceProgress}
+                    current={current === 'external'}
                   />
                 )}
               </>
