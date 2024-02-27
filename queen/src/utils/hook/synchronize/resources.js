@@ -1,9 +1,5 @@
 import { getPercent } from 'utils';
-import {
-  CAMPAIGN_WITH_SOUND_KEYWORD,
-  EXTERNAL_RESOURCES_BASE_URL,
-  EXTERNAL_RESOURCES_CACHE_NAME,
-} from 'utils/constants';
+import { CAMPAIGN_WITH_SOUND_KEYWORD, EXTERNAL_RESOURCES_BASE_URL } from 'utils/constants';
 import { useAPI, useAsyncValue } from 'utils/hook';
 
 export const usePutResourcesInCache = updateProgress => {
@@ -74,13 +70,38 @@ export const areExternalResourcesNeeded = (listOfCampaigns = []) => {
   return false;
 };
 
+/**
+ * getExternalQuestionnaireFiltered
+ * @param {*} listOfCampaigns ex: [{ "id": "toto-2" }]
+ * @param {*} listOfExternalQuestionnaires ex: [{ "id": "toto-2", "cacheName": "cache-toto-2" }, { "id": "toto-3", "cacheName": "cache-toto-3" }]
+ * @returns {} { needed: [{ "id": "toto-2", "cacheName": "cache-toto-2" }], noNeeded: [{ "id": "toto-3", "cacheName": "cache-toto-3" }]}
+ */
+export const getExternalQuestionnaireFiltered = (
+  listOfCampaigns = [],
+  listOfExternalQuestionnaires = []
+) => {
+  const campaignIds = listOfCampaigns.map(({ id }) => id);
+
+  return {
+    needed: listOfExternalQuestionnaires.filter(({ id }) => campaignIds.includes(id)),
+    noNeeded: listOfExternalQuestionnaires.filter(({ id }) => !campaignIds.includes(id)),
+  };
+};
+
 export const useSpecialResourcesInCache = updateProgress => {
   const { getSpecialResource } = useAPI();
   const refreshGetSpecialResource = useAsyncValue(getSpecialResource);
 
-  const getManifestResources = async () => {
+  const getExternalQuestionnaires = async () => {
+    const { data: questionnaireData, error } = await refreshGetSpecialResource.current(
+      `${EXTERNAL_RESOURCES_BASE_URL}/gide-questionnaires.json`
+    );
+    return questionnaireData.questionnaires;
+  };
+
+  const getManifestResources = async questionnaireId => {
     const { data: manifest, error } = await refreshGetSpecialResource.current(
-      `${EXTERNAL_RESOURCES_BASE_URL}/assets-manifest.json`
+      `${EXTERNAL_RESOURCES_BASE_URL}/${questionnaireId}/assets-manifest.json`
     );
     return manifest;
   };
@@ -104,19 +125,32 @@ export const useSpecialResourcesInCache = updateProgress => {
     }, Promise.resolve());
   };
 
-  const clearExternalResources = async () => {
-    await caches.delete(EXTERNAL_RESOURCES_CACHE_NAME);
-  };
+  const getExternalResources = async listOfCampaigns => {
+    const allExternalQuestionnaires = await getExternalQuestionnaires();
 
-  const getExternalResources = async (needed = false) => {
-    if (needed) {
-      // retrive all needed data
-      const externalManifest = await getManifestResources();
-      await getAllResourcesFromManifest(externalManifest);
-    } else {
-      // clear external cache
-      await clearExternalResources();
-    }
+    const { needed = [], noNeeded = [] } = getExternalQuestionnaireFiltered(
+      listOfCampaigns,
+      allExternalQuestionnaires
+    );
+
+    // (1) Retrive all needed external questionnaire's resources : all questionnaire described by needed list
+    await needed.reduce(async (previousPromise, { id }) => {
+      await previousPromise;
+      const getAllResourcesForOneQuestionnaire = async () => {
+        const externalManifest = await getManifestResources(id);
+        await getAllResourcesFromManifest(externalManifest);
+      };
+      return getAllResourcesForOneQuestionnaire();
+    }, Promise.resolve());
+
+    // (2) Delete cache for all no needed questionnaire : all questionnaire described by noNeeded list
+    await noNeeded.reduce(async (previousPromise, { cacheName }) => {
+      await previousPromise;
+      const clearExternalResources = async () => {
+        await caches.delete(cacheName);
+      };
+      return clearExternalResources();
+    }, Promise.resolve());
   };
 
   return getExternalResources;

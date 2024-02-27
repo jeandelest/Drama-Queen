@@ -117,7 +117,7 @@ export const useSynchronisation = () => {
         // (4.2) Get external special resources for campaign
 
         if (needExternalSpecialResources) setCurrent('external');
-        await getExternalResources(needExternalSpecialResources);
+        await getExternalResources(campaigns);
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
       console.error(e);
