@@ -1983,10 +1983,10 @@
     remove-accents "^0.4.2"
     sass "^1.32.2"
 
-"@inseefr/lunatic@^2.7.18":
-  version "2.7.18"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.7.18.tgz#3b3b73731b928632353b9e713084750529551c9c"
-  integrity sha512-TQv/ImaM2V+zigkgSdZWGSEivywsuAFhYhgxcRS2eA9x/yjty6KrhPgDyz0sOOmAQZHRdHKMMC8y7qirqVMj3Q==
+"@inseefr/lunatic@^2.7.20":
+  version "2.7.20"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.7.20.tgz#ddc9e971f3e30bac8d79d174d2bf296968e18718"
+  integrity sha512-txYpJTCz4szQJXB0mY3d+QN32Tw2hfpRGQzomjprNQl+Rfc6LNTzGMJ4WgU/aYZmLyFPgMPmz+j0T3bjaR3obA==
   dependencies:
     "@inseefr/trevas" "^0.1.20"
     "@inseefr/vtl-2.0-antlr-tools" "^0.1.0"
