@@ -109,6 +109,7 @@ export const useSpecialResourcesInCache = updateProgress => {
   const getAllResourcesFromManifest = async manifest => {
     // Manifest maybe containe /auto at start of each value, we have to replace this by URL of the server that contains these resources
     const transformManifest = Object.entries(manifest).map(([resourceName, resourceUrl]) => {
+      // TODO: maybe we need to replace by something like  `${EXTERNAL_RESOURCES_BASE_URL}/${questionnaireId}/`
       return [resourceName, `${resourceUrl.replace('auto/', `${EXTERNAL_RESOURCES_BASE_URL}/`)}`];
     });
     let i = 0;
