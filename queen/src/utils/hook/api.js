@@ -117,10 +117,6 @@ export const useAPI = () => {
     [apiUrl, authenticationType, oidcUser]
   );
 
-  const getSpecialResource = useCallback(resourceUrl => {
-    return API.getRequestWithoutHeaders(resourceUrl)(null);
-  }, []);
-
   return {
     getCampaigns,
     getSurveyUnits,
@@ -131,9 +127,10 @@ export const useAPI = () => {
     putUeData,
     putUeDataToTempZone,
     postParadata,
-    getSpecialResource,
   };
 };
+
+export const getSpecialResource = resourceUrl => API.getRequestWithoutHeaders(resourceUrl)(null);
 
 export const useGetSurveyUnit = () => {
   const { getUeData } = useAPI();
