@@ -180,6 +180,7 @@ export const useSpecialResourcesInCache = updateProgress => {
     // (1): put in cache if resources is not present
     // (2): delete cache for questionnaires that are useless
     // (3): delete root-cache (global entry.js and gide-questionnaires.json)
+    // (4): delete old caches (with "gide" in name of cache) that are not described by gide-questionnaires.json
 
     // (1) Retrive all needed external questionnaire's resources : all questionnaire described by needed list
     await needed.reduce(async (previousPromise, { id }) => {
@@ -210,10 +211,13 @@ export const useSpecialResourcesInCache = updateProgress => {
       await caches.delete(EXTERNAL_RESOURCES_ROOT_CACHE_NAME);
     }
     // (4): delete old caches (that are not in gides-questionnaire.json but sill in browser)
-    const gideCaches = (await caches.keys()).filter(name =>
-      name.toLowerCase().includes(CAMPAIGN_WITH_SOUND_KEYWORD)
+    const neededCaches = needed.map(({ cacheName }) => cacheName);
+    // Keep caches from all caches where cacheName include "gide" and that are not in needed cache list
+    const oldFideCaches = (await caches.keys()).filter(
+      name =>
+        name.toLowerCase().includes(CAMPAIGN_WITH_SOUND_KEYWORD) && !neededCaches.includes(name)
     );
-    await gideCaches.reduce(async (previousPromise, cacheName) => {
+    await oldFideCaches.reduce(async (previousPromise, cacheName) => {
       await previousPromise;
       const clearExternalResources = async () => {
         await caches.delete(cacheName);
