@@ -1,5 +1,10 @@
 import { getPercent } from 'utils';
-import { EXTERNAL_RESOURCES_BASE_URL, EXTERNAL_RESOURCES_ROOT_CACHE_NAME } from 'utils/constants';
+import {
+  CAMPAIGN_WITH_SOUND_KEYWORD,
+  EXTERNAL_RESOURCES_BASE_URL,
+  EXTERNAL_RESOURCES_CACHE_NAME,
+  EXTERNAL_RESOURCES_ROOT_CACHE_NAME,
+} from 'utils/constants';
 import { getSpecialResource, useAPI, useAsyncValue } from 'utils/hook';
 
 const getAllQuestionnaireIdsFromCampaign = (listOfCampaigns = []) =>
@@ -204,6 +209,17 @@ export const useSpecialResourcesInCache = updateProgress => {
     if (needed.length === 0) {
       await caches.delete(EXTERNAL_RESOURCES_ROOT_CACHE_NAME);
     }
+    // (4): delete old caches (that are not in gides-questionnaire.json but sill in browser)
+    const gideCaches = (await caches.keys()).filter(name =>
+      name.toLowerCase().includes(CAMPAIGN_WITH_SOUND_KEYWORD)
+    );
+    await gideCaches.reduce(async (previousPromise, cacheName) => {
+      await previousPromise;
+      const clearExternalResources = async () => {
+        await caches.delete(cacheName);
+      };
+      return clearExternalResources();
+    }, caches.delete(EXTERNAL_RESOURCES_CACHE_NAME));
   };
 
   return { getExternalResources, getExternalQuestionnaires };
