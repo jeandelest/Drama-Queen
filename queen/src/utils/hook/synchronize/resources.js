@@ -140,6 +140,7 @@ export const useSpecialResourcesInCache = updateProgress => {
   };
 
   const getAllResourcesFromManifest = async manifest => {
+    // Add capmi url in resources's url
     const transformManifest = Object.entries(manifest).map(([resourceName, resourceUrl]) => {
       return [resourceName, `${EXTERNAL_RESOURCES_BASE_URL}/${resourceUrl}`];
     });
@@ -183,19 +184,19 @@ export const useSpecialResourcesInCache = updateProgress => {
     // (4): delete old caches (with "gide" in name of cache) that are not described by gide-questionnaires.json
 
     // (1) Retrive all needed external questionnaire's resources : all questionnaire described by needed list
-    await needed.reduce(async (previousPromise, { id }) => {
-      await previousPromise;
-      const getAllResourcesForOneQuestionnaire = async () => {
-        try {
-          const externalManifest = await getManifestResources(id);
-          await getAllResourcesFromManifest(externalManifest);
-        } catch (error) {
-          console.error(error);
-          console.error(`Error when retrive sound resouces for "${id}" questionnaire.`);
-        }
-      };
-      return getAllResourcesForOneQuestionnaire();
-    }, Promise.resolve());
+    // (1.1) Merge all manifest files
+    const mergedManifest = await needed.reduce(async (previousPromise, { id }) => {
+      const finalManifest = await previousPromise;
+      const newManifest = await getManifestResources(id);
+      const transformManifest = Object.fromEntries(
+        Object.entries(newManifest).map(([resourceName, resourceUrl]) => {
+          return [`${id}-${resourceName}`, resourceUrl];
+        })
+      );
+      return { ...finalManifest, ...transformManifest };
+    }, {});
+    // (1.2) Retrieve all resources from mergedManifest
+    await getAllResourcesFromManifest(mergedManifest);
 
     // (2) Delete cache for all no needed questionnaire : all questionnaire described by noNeeded list
     await noNeeded.reduce(async (previousPromise, { cacheName }) => {
