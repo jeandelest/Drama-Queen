@@ -44,7 +44,7 @@ export const useSynchronisation = () => {
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
-  const { getExternalResources, getExternalQuestionnaires } = useSpecialResourcesInCache(
+  const { getAndCleanExternalResources, getExternalQuestionnaires } = useSpecialResourcesInCache(
     setExternalResourceProgress
   );
 
@@ -121,10 +121,8 @@ export const useSynchronisation = () => {
           availableExternalQuestionnaires
         );
 
-        if (needExternalSpecialResources) {
-          setCurrent('external');
-          await getExternalResources(campaigns, availableExternalQuestionnaires);
-        }
+        if (needExternalSpecialResources) setCurrent('external');
+        await getAndCleanExternalResources(campaigns, availableExternalQuestionnaires);
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
       console.error(e);

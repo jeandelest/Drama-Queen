@@ -171,7 +171,7 @@ export const useSpecialResourcesInCache = updateProgress => {
     updateProgress(100);
   };
 
-  const getExternalResources = async (listOfCampaigns, listOfExternalQuestionnaires) => {
+  const getAndCleanExternalResources = async (listOfCampaigns, listOfExternalQuestionnaires) => {
     const { needed = [], noNeeded = [] } = getExternalQuestionnaireFiltered(
       listOfCampaigns,
       listOfExternalQuestionnaires
@@ -227,5 +227,5 @@ export const useSpecialResourcesInCache = updateProgress => {
     }, caches.delete(EXTERNAL_RESOURCES_CACHE_NAME));
   };
 
-  return { getExternalResources, getExternalQuestionnaires };
+  return { getAndCleanExternalResources, getExternalQuestionnaires };
 };
