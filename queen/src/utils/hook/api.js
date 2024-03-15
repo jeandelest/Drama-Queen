@@ -135,6 +135,8 @@ export const useAPI = () => {
   };
 };
 
+export const getSpecialResource = resourceUrl => API.getRequestWithoutHeaders(resourceUrl)(null);
+
 export const useGetSurveyUnit = () => {
   const { getUeData } = useAPI();
   const refreshGetData = useAsyncValue(getUeData);

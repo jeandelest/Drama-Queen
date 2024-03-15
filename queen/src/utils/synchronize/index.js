@@ -44,7 +44,9 @@ export const useSynchronisation = () => {
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
-  const getExternalResources = useSpecialResourcesInCache(setExternalResourceProgress);
+  const { getAndCleanExternalResources, getExternalQuestionnaires } = useSpecialResourcesInCache(
+    setExternalResourceProgress
+  );
 
   const getAllCampaign = async campaign => {
     const { id, questionnaireIds } = campaign;
@@ -115,9 +117,14 @@ export const useSynchronisation = () => {
         }, Promise.resolve({}));
 
         // (4.2) Get external special resources for campaign
+        const availableExternalQuestionnaires = await getExternalQuestionnaires();
+        const needExternalSpecialResources = await areExternalResourcesNeeded(
+          campaigns,
+          availableExternalQuestionnaires
+        );
 
         if (needExternalSpecialResources) setCurrent('external');
-        await getExternalResources(needExternalSpecialResources);
+        await getAndCleanExternalResources(campaigns, availableExternalQuestionnaires);
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
       console.error(e);
