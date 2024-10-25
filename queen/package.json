@@ -43,7 +43,7 @@
   "scripts": {
     "start": "cross-env PORT=5001 react-scripts start",
     "start-dev": "cross-env PORT=5001 craco start",
-    "build": "react-scripts build && npm run post-build",
+    "build": "react-scripts --openssl-legacy-provider build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
@@ -52,28 +52,13 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
       "react-app/jest",
       "prettier",
       "plugin:react-hooks/recommended",
       "plugin:jsx-a11y/recommended",
-      "plugin:import/warnings"
+      "plugin:import/warnings",
+      "plugin:react-hooks/recommended"
     ],
-    "plugins": [
-      "prettier",
-      "jsx-a11y"
-    ],
-    "rules": {
-      "react/prop-types": [
-        "off"
-      ],
-      "prettier/prettier": [
-        1,
-        {
-          "arrowParens": "avoid"
-        }
-      ]
-    },
     "globals": {
       "fetch": true,
       "window": true,
@@ -116,7 +101,6 @@
     "copy-and-watch": "^0.1.4",
     "cross-env": "^7.0.3",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",

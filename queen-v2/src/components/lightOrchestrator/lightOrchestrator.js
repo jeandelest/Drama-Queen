@@ -1,13 +1,13 @@
 import { useLunatic } from '@inseefr/lunatic';
-
-import { memo, useEffect, useMemo, useRef } from 'react';
-import ButtonContinue from './buttons/continue/index';
-
 import D from 'i18n';
-import { componentHasResponse } from 'utils/components/deduceState';
+import { memo, useEffect, useMemo, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { isSequenceOrSubsequenceComponent } from 'utils/components/deduceState';
 import { QUEEN_URL } from 'utils/constants';
 import { useConstCallback } from 'utils/hook/useConstCallback';
+import { countMissingResponseInPage } from 'utils/questionnaire';
 import { LoopPanel } from './LoopPanel';
+import ButtonContinue from './buttons/continue/index';
 import { ComponentDisplayer } from './componentDisplayer';
 import Header from './header';
 import { useStyles } from './lightOrchestrator.style';
@@ -19,7 +19,7 @@ function noDataChange() {
 
 const preferences = ['COLLECTED'];
 const features = ['VTL', 'MD'];
-// const savingType = 'COLLECTED';
+const custom = { RouterLink: Link };
 
 const missingShortcut = { dontKnow: 'f2', refused: 'f4' };
 
@@ -65,11 +65,14 @@ function LightOrchestrator({
 
   const missingStrategy = useConstCallback(() => {
     if (lunaticStateRef === undefined) return;
-    const { goNextPage } = lunaticStateRef.current;
-    goNextPage();
+    const { goNextPage, getComponents } = lunaticStateRef.current;
+    const currentComponents = getComponents();
+    // Only goNext if there is only one missing response in current page
+    if (countMissingResponseInPage(currentComponents) === 1) goNextPage();
   });
 
   lunaticStateRef.current = useLunatic(source, initialData, {
+    custom,
     lastReachedPage: lastReachedPage ?? '1',
     features,
     pagination,
@@ -107,6 +110,7 @@ function LightOrchestrator({
     loopVariables = [],
     Provider,
     pageTag,
+    hasPageResponse,
   } = lunaticStateRef.current;
 
   const components = getComponents();
@@ -166,7 +170,7 @@ function LightOrchestrator({
   };
 
   const firstComponent = useMemo(() => [...components]?.[0], [components]);
-  const hasResponse = componentHasResponse(firstComponent);
+  const hasResponse = hasPageResponse() || isSequenceOrSubsequenceComponent(firstComponent);
 
   const isLastReachedPage = pager !== undefined ? checkIfLastReachedPage() : false;
   const { maxPage, page, subPage, nbSubPages, iteration, nbIterations } = pager;
@@ -190,7 +194,8 @@ function LightOrchestrator({
         readonly={readonly}
         quit={memoQuit}
         definitiveQuit={memoDefinitiveQuit}
-        currentPage={page}
+        pageTag={pageTag}
+        pager={pager}
       />
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
